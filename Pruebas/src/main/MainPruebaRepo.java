@@ -11,7 +11,7 @@ public class MainPruebaRepo {
 	public static void main(String[] args) {
 
 		// copiado del profe, lo remplaze con usuario pero no lo probe :(
-		UsuarioRepo repo = UsuariosRepoSingleton.getInstance();
+		UsuariosRepo repo = UsuariosRepoSingleton.getInstance();
 
 		Usuario nuevo = new Usuario("Nestor", 26, 30000); // modif param
 		repo.insert(nuevo);

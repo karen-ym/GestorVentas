@@ -1,5 +1,7 @@
 package repositories;
 
-public class UsuariosRepoSingleton {
+import repositories.interfaces.UsuariosRepo;
+
+public class UsuariosRepoSingleton implements UsuariosRepo{
 
 }

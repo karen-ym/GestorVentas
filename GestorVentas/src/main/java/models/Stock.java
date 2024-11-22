@@ -1,13 +1,13 @@
 package models;
 
-public class ArticuloCantidad {
+public class Stock {
 	
 	// ATRIBUTOS
 	public Articulo articulo;
     public int cantidad;
 
     // CONSTRUCTOR
-    public ArticuloCantidad(Articulo articulo, int cantidad) {
+    public Stock(Articulo articulo, int cantidad) {
 		super();
 		this.articulo = articulo;
 		this.cantidad = cantidad;

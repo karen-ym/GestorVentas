@@ -10,10 +10,10 @@ public class Venta {
 	private int id;
 	private String nombreUsuario;
 	private double total;
-	private List <ArticuloCantidad> articulos;
+	private List <Stock> articulos;
 	
 	// CONSTRUCTOR 
-	public Venta(int id, String nombreUsuario, double total, List<ArticuloCantidad> articulos) {
+	public Venta(int id, String nombreUsuario, double total, List<Stock> articulos) {
 		super();
 		this.id = id; // esto creeeo que había dicho que no iba
 		this.nombreUsuario = nombreUsuario;
@@ -38,10 +38,10 @@ public class Venta {
 	public void setTotal(double total) {
 		this.total = total;
 	}
-	public List<ArticuloCantidad> getArticulos() {
+	public List<Stock> getArticulos() {
 		return articulos;
 	}
-	public void setArticulos(List<ArticuloCantidad> articulos) {
+	public void setArticulos(List<Stock> articulos) {
 		this.articulos = articulos;
 	}
 }

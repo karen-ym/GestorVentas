@@ -1,5 +1,7 @@
 package repositories;
 
-public class VentasRepoSingleton {
+import repositories.interfaces.VentasRepo;
+
+public class VentasRepoSingleton implements VentasRepo{
 
 }

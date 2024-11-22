@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Carrito {
 	// ATRIBUTOS
-    public List<ArticuloCantidad> articulos;
+    public List<Stock> articulos;
 
     // CONSTRUCTOR
     public Carrito() {
