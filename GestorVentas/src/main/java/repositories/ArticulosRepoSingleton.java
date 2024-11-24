@@ -2,7 +2,6 @@ package repositories;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import models.Articulo;
 import repositories.interfaces.ArticulosRepo;
@@ -79,14 +78,14 @@ public class ArticulosRepoSingleton implements ArticulosRepo{
 	public void update(Articulo articulo) {
 	    listaArticulos = listaArticulos.stream()
 	        .map(a -> a.getCodigo() == articulo.getCodigo() ? articulo : a)
-	        .collect(Collectors.toList());
+	        .toList();
 	}
     
 	@Override
 	public void delete(int codigo) {
 	    listaArticulos = listaArticulos.stream()
 	        .filter(a -> a.getCodigo() != codigo)
-	        .collect(Collectors.toList());
+	        .toList();
 	}
 
 }
