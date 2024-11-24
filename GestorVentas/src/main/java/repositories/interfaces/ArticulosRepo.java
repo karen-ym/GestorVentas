@@ -5,8 +5,7 @@ import models.Articulo;
 
 public interface ArticulosRepo {
 	
-	// CODIGO COPIADO DEL PROFE (su ejemplo era con empleados!)
-	// Aca id es código de art
+	// Aca id es código de art -K
 	
 	List<Articulo> getAll();
     Articulo findByCodigo(int codigo); 
