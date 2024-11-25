@@ -13,7 +13,6 @@ public interface UsuariosRepo {
 
 	// CRUD: nombra importancia para bd pero no trabajamos con bd
 	public void insert(Usuario usuario);
-	public void update(Usuario usuario);
 	public void delete(int idUsuario); // como usó id se lo agrego a la entidad (me iba a manejar con nombreUsuario)
 	
 }
