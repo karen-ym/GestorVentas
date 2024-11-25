@@ -5,12 +5,48 @@ import java.util.List;
 
 public class Carrito {
 	// ATRIBUTOS
-    public List<Stock> articulos;
+	private int idUsuario;
+    private List<Articulo> listaArticulos;
 
     // CONSTRUCTOR
-    public Carrito() {
-        this.articulos = new ArrayList<>();
-    }
+    public Carrito(int idusuario) {
+        this.listaArticulos = new ArrayList<Articulo>();
+        this.idUsuario = idusuario;
+    } 
     
     // Debería añadir métodos para el carrito, onda agregar art y eso después
+    
+    public List<Articulo> getCarrito() {
+		return new ArrayList<Articulo>(listaArticulos);
+	}
+
+	public boolean addCarrito(Articulo articulo) {
+		boolean resultado = this.listaArticulos.add(articulo);
+		return resultado;
+	}
+	
+	public boolean delete(int id) {
+		return listaArticulos.removeIf(a -> a.getCodigo() == id);
+	}
+	
+	public double precioTotal() {
+		return this.listaArticulos.stream().mapToDouble(Articulo::getPrecio).sum();
+	}
+	
+	public int cantArticulos() {
+		return this.listaArticulos.stream().mapToInt(Articulo::getStock).sum();
+	}
+
+	public int getIdUsuario() {
+		return idUsuario;
+	}
+
+	public void setIdUsuario(int idCarrtio) {
+		this.idUsuario = idCarrtio;
+	}
+	
+	@Override
+	public String toString() {
+		return "Carrito [idUsuario=" + idUsuario + ", listaArticulos=" + listaArticulos + "]";
+	}
 }
