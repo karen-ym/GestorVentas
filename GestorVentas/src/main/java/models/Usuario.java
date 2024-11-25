@@ -2,29 +2,37 @@ package models;
 
 public class Usuario {
 	
-	// Como mínimo: nombre usuario y contraseña
+	// Como mÃ­nimo: nombre usuario y contraseÃ±a
 	
 	// ATRIBUTOS
 	private int id;
-	private String nombreUsuario; // podría ser idUsuario ? pero no se nombra el uso de bbdd
+	private String nombreUsuario; // podrÃ­a ser idUsuario ? pero no se nombra el uso de bbdd
 	private String contrasenia;
-	private boolean admin; // true = admin | false = cliente
+	private String tipo; // Asi se decide si se quiere registrar un usuario como cliente o empleado
 	private double saldoActual; // me evito entidad billetera
 
+	public Usuario() {
+		super();
+	}
+
 	// CONSTRUCTOR
-	public Usuario(String nombreUsuario, String contrasenia, boolean admin, double saldoActual) {
+	public Usuario(String nombreUsuario, String contrasenia, String tipo, double saldoActual) {
 		super();
 		this.nombreUsuario = nombreUsuario;
 		this.contrasenia = contrasenia;
-		this.admin = admin;
+		this.tipo = tipo;
 		this.saldoActual = saldoActual;
 	}
 
 	// SETTERS & GETTERS
 	
-	// solo un getter de id
+	
 	public int getId() {
 		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 	
 	public String getNombreUsuario() {
@@ -43,12 +51,12 @@ public class Usuario {
 		this.contrasenia = contrasenia;
 	}
 
-	public boolean isAdmin() {
-		return admin;
+	public String getTipo() {
+		return tipo;
 	}
 
-	public void setAdmin(boolean admin) {
-		this.admin = admin;
+	public void setTipo(String tipo) {
+		this.tipo = tipo;
 	}
 
 	public double getSaldoActual() {
