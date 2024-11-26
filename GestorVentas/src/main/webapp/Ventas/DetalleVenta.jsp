@@ -26,6 +26,7 @@
                     <th>Nombre</th>
                     <th>Cantidad</th>
                     <th>Precio Unitario</th>
+                    <th>Fecha </th>
                 </tr>
             </thead>
             <tbody>
