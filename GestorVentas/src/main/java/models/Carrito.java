@@ -1,5 +1,6 @@
 package models;
 
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +15,10 @@ public class Carrito {
         this.idUsuario = idusuario;
     } 
     
+    public Carrito(int idUsuario, ArrayList<Articulo> articulos) {
+    	this.idUsuario = idUsuario;
+    	this.listaArticulos = articulos;
+	}
     // Debería añadir métodos para el carrito, onda agregar art y eso después
     
     public List<Articulo> getCarrito() {
@@ -25,11 +30,15 @@ public class Carrito {
 		return resultado;
 	}
 	
-	public boolean delete(int id) {
+	public Articulo getArticulo(int codigo) {
+		return this.listaArticulos.stream().filter(a -> a.getCodigo() == codigo).findFirst().orElse(null);
+	}
+	
+	public boolean deleteArticulo(int id) {
 		return listaArticulos.removeIf(a -> a.getCodigo() == id);
 	}
 	
-	public double precioTotal() {
+	public double precioTotalCarrito() {
 		return this.listaArticulos.stream().mapToDouble(Articulo::getPrecio).sum();
 	}
 	
@@ -43,6 +52,11 @@ public class Carrito {
 
 	public void setIdUsuario(int idCarrtio) {
 		this.idUsuario = idCarrtio;
+	}
+	
+	public void editarArticulo(int codigo, int cantidad) {
+		Articulo articulo = this.listaArticulos.stream().filter(a -> a.getCodigo() == codigo).findFirst().orElse(null);
+		articulo.setStock(cantidad);
 	}
 	
 	@Override
