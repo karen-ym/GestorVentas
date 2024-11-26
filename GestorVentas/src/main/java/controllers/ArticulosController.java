@@ -14,7 +14,8 @@ import models.Articulo;
 import repositories.ArticulosRepoSingleton;
 import repositories.interfaces.ArticulosRepo;
 
-@WebServlet("/ArticulosController")
+//@WebServlet("/ArticulosController")
+@WebServlet("/articulos") // acá el webservlet apunta a la url que vamos a utilizar -k
 public class ArticulosController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -25,12 +26,11 @@ public class ArticulosController extends HttpServlet {
         this.articulosRepo = ArticulosRepoSingleton.getInstance();
     }
 
+    
  // Maneja las peticiones GET (mostrar la lista de artículos, el formulario de creación, etc.) -K
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String accion = request.getParameter("accion");
-        // Si no viene la acción, por defecto vamos al index
-        accion = Optional.ofNullable(accion).orElse("index"); 
+        accion = Optional.ofNullable(accion).orElse("index");
 
         switch (accion) {
             case "index":
@@ -39,7 +39,7 @@ public class ArticulosController extends HttpServlet {
             case "show":
                 getShow(request, response);
                 break;
-            case "edit":
+            case "edit":  // Verifica que este case sea correcto
                 getEdit(request, response);
                 break;
             case "create":
@@ -50,40 +50,49 @@ public class ArticulosController extends HttpServlet {
         }
     }
     
+    
     // METODOS GET -K
 
     // Formulario para CREAR art
     private void getCreate(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("/views/articulos/create.jsp").forward(request, response);
+        request.getRequestDispatcher("/articulos/create.jsp").forward(request, response);
     }
 
     // Formulario para EDITAR el art
-    private void getEdit(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    private void getEdit(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int codigo = Integer.parseInt(request.getParameter("codigo"));
         Articulo articulo = articulosRepo.findByCodigo(codigo);
+
+        if (articulo == null) {
+            response.sendError(404, "Artículo no encontrado"); 
+            return;
+        }
+
         request.setAttribute("articulo", articulo);
-        request.getRequestDispatcher("/views/articulos/edit.jsp").forward(request, response);
+        request.getRequestDispatcher("views/articulos/edit.jsp").forward(request, response);
     }
 
+    
     // Mostrar detalle de un art
     private void getShow(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         int codigo = Integer.parseInt(request.getParameter("codigo"));
         Articulo articulo = articulosRepo.findByCodigo(codigo);
         request.setAttribute("articulo", articulo);
-        request.getRequestDispatcher("/views/articulos/show.jsp").forward(request, response);
+        request.getRequestDispatcher("views/articulos/show.jsp").forward(request, response);
     }
 
+    
     // Va a buscar la lista de todos los articulos para mostrar en index
     private void getIndex(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         List<Articulo> listaArticulos = articulosRepo.getAll();
         request.setAttribute("listaArticulos", listaArticulos);
-        request.getRequestDispatcher("/views/articulos/index.jsp").forward(request, response);
+        request.getRequestDispatcher("views/articulos/index.jsp").forward(request, response);
     }
 
+    
     // Metodos get & post (get = buscar del server; post = enviar al server)
     
     // METODOS POST -K
@@ -113,13 +122,15 @@ public class ArticulosController extends HttpServlet {
         }
     }
 
+    
     // Eliminar un artículo
     private void postDelete(HttpServletRequest request, HttpServletResponse response) throws IOException {
         int codigo = Integer.parseInt(request.getParameter("codigo"));
         articulosRepo.delete(codigo);
-        response.sendRedirect("articulos"); // Redirige a la página principal de artículos
+        response.sendRedirect("articulos");
     }
 
+    
     // Actualizar un artículo 
     private void postUpdate(HttpServletRequest request, HttpServletResponse response) throws IOException {
         int codigo = Integer.parseInt(request.getParameter("codigo"));
@@ -144,6 +155,7 @@ public class ArticulosController extends HttpServlet {
         response.sendRedirect("articulos");
     }
 
+    
     // Crea un nuevo artículo
     private void postInsert(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String nombre = request.getParameter("nombre");
@@ -159,7 +171,7 @@ public class ArticulosController extends HttpServlet {
 
         articulosRepo.insert(articulo);
 
-        response.sendRedirect("articulos"); // Redirige a la vista "index"
+        response.sendRedirect("articulos");
     }
 
 }

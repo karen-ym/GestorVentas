@@ -40,7 +40,7 @@ public class ArticulosRepoSingleton implements ArticulosRepo{
         Articulo art5 = new Articulo(5, "Tijeras", "Tijeras de acero inoxidable para oficina", 50, 75);
         this.insert(art5);
 
-        Articulo art6 = new Articulo(6, "Carpeta", "Carpeta de cartón con 2 argollas", 70, 50);
+        Articulo art6 = new Articulo(6, "Carpeta", "Carpeta de carton con 2 argollas", 70, 50);
         this.insert(art6);
     }
 	

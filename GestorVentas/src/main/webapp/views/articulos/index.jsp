@@ -9,6 +9,8 @@
 </head>
 <body>
 
+	<!-- Esta la primera página de artículos. Está en /GestorVentas/articulos -K -->
+
 	<a href="articulos?accion=create">Agregar Artículo</a>
 
 	<table border="1">
@@ -33,6 +35,13 @@
 					<td><c:out value="${articulo.stock}" /></td>
 					<td><a href="articulos?accion=show&codigo=${articulo.codigo}">ver</a></td>
 					<td><a href="articulos?accion=edit&codigo=${articulo.codigo}">editar</a></td>
+					<td>
+					<form action="articulos" method="post">
+	    				<input type="hidden" name="codigo" value="${articulo.codigo}">
+						<input type="hidden" name="accion" value="delete">
+						<input type="submit" value = "eliminar">
+					</form>
+					</td>				
 				</tr>
 			</c:forEach>
 		</tbody>

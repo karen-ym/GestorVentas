@@ -9,8 +9,9 @@
 <body>
 	<h1>Editar Artículo</h1>
 
-	<form action="" method="post"> 
-		<input type="hidden" name="codigo" value="${articulo.codigo}" /> 
+	<form action="articulos" method="post">
+		<input type="hidden" name="accion" value="update">
+		<input type="hidden" name="codigo" value="${articulo.codigo}"> 
 		<p>
 			Nombre: <input type="text" name="nombre" value="${articulo.nombre}" />
 		</p>

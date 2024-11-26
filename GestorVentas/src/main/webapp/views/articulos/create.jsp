@@ -8,7 +8,8 @@
 <body>
 	<h1>Crear Artículo</h1>
 
-	<form action="" method="post">
+	<form action="articulos" method="post">
+		<input type="hidden" name="accion" value="insert">
 		<p>
 			Nombre: <input type="text" name="nombre" value=""/>
 		</p>
