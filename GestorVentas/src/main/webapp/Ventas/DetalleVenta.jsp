@@ -1,17 +1,15 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
-	<!-- TODAVIA NOSE SI FUNCIONA ES MAS QUE NADA LA MAQUETA -->
     <title>Detalles de Venta</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <h1>Detalles de la Venta</h1>
 
-    <p><strong>ID Venta:</strong> ${venta.id}</p>
+    <p><strong>ID Venta:</strong> ${venta.idVenta}</p>
     <p><strong>Usuario:</strong> ${venta.nombreUsuario}</p>
     <p><strong>Total:</strong> ${venta.total}</p>
 
@@ -44,6 +42,6 @@
     </c:if>
 
     <br/>
-    <a href="HistorialVentas">Volver al Historial</a>
+    <a href="VentasController?accion=historial">Volver al Historial</a>
 </body>
 </html>

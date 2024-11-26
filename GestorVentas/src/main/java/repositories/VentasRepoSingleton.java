@@ -5,16 +5,16 @@ import java.util.List;
 import models.Venta;
 import repositories.interfaces.VentasRepo;
 
-public class VentasRepoSingleton implements VentasRepo{
+public class VentasRepoSingleton implements VentasRepo {
 
-	private static VentasRepoSingleton instancia;
+    private static VentasRepoSingleton instancia;
     private List<Venta> ventas;
 
     private VentasRepoSingleton() {
         ventas = new ArrayList<>();
     }
 
-    public static VentasRepoSingleton getInstance() {
+    public static synchronized VentasRepoSingleton getInstance() {
         if (instancia == null) {
             instancia = new VentasRepoSingleton();
         }
@@ -23,17 +23,15 @@ public class VentasRepoSingleton implements VentasRepo{
 
     @Override
     public List<Venta> getAll() {
-        return new ArrayList<>(ventas);
+        return ventas != null ? new ArrayList<>(ventas) : new ArrayList<>();
     }
 
     @Override
     public Venta findById(int id) {
-        for (Venta venta : ventas) {
-            if (venta.getIdVenta() == id) {
-                return venta;
-            }
-        }
-        return null; 
+        return ventas.stream()
+                     .filter(venta -> venta.getIdVenta() == id)
+                     .findFirst()
+                     .orElse(null);
     }
 
     @Override
