@@ -7,7 +7,7 @@ import models.Transaccion;
 public interface TransaccionesRepo {
 	
     List<Transaccion> getAll();
-    void registrarTransaccion(Transaccion transaccion); // 1
+    public void registrarTransaccion(Transaccion transaccion); // 1
     List<Transaccion> obtenerTransaccionesPorUsuarioDeudor(int idUsuario); // 2 
     List<Transaccion> obtenerTransaccionesPorUsuarioBeneficiario(int idUsuario); // 3
     

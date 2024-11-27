@@ -2,11 +2,9 @@ package models;
 
 public class Usuario {
 	
-	// Como mÃ­nimo: nombre usuario y contraseÃ±a
-	
 	// ATRIBUTOS
 	private int id;
-	private String nombreUsuario; // podrÃ­a ser idUsuario ? pero no se nombra el uso de bbdd
+	private String nombreUsuario; 
 	private String contrasenia;
 	private String tipo; // Asi se decide si se quiere registrar un usuario como cliente o empleado
 	private double saldoActual; // me evito entidad billetera

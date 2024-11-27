@@ -3,6 +3,7 @@ package repositories;
 import repositories.interfaces.TransaccionesRepo;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import models.Transaccion;
 import models.Usuario;
@@ -34,7 +35,7 @@ public class TransaccionesRepoSingleton implements TransaccionesRepo{
     }
     
     
-    // METODOS
+    // METODOS -K
     
     // 1. Registrar transaccion
     @Override
@@ -54,17 +55,23 @@ public class TransaccionesRepoSingleton implements TransaccionesRepo{
          beneficiario.setSaldoActual(beneficiario.getSaldoActual() + transaccion.getMontoTransaccionado());
          
          // tengo que chequear que haya un metodo update en usuario
-//         usuariosRepo.update(deudor);
-//         usuariosRepo.update(beneficiario);
+         usuariosRepo.update(deudor);
+         usuariosRepo.update(beneficiario);
          
          // Le registro la transaccion y le aumento el id
-         int ultimoId = transacciones.stream().mapToInt(Transaccion::getId).max().orElse(0);
+         int ultimoId = transacciones.stream()
+        	        .max(Comparator.comparingInt(Transaccion::getId)) 
+        	        .map(Transaccion::getId) 
+        	        .orElse(0);
          transaccion.setId(ultimoId + 1);
          transacciones.add(transaccion);
     }
     
+    
     // Ver transaccion por idUsuario (realizadas y recibidas, separadas) -K
     
+    
+    // 2. Transacciones deudor (o sea, el dinero enviado)
     @Override
     public List<Transaccion> obtenerTransaccionesPorUsuarioDeudor(int idUsuario) {
         return transacciones.stream()
@@ -72,6 +79,7 @@ public class TransaccionesRepoSingleton implements TransaccionesRepo{
                 .toList();
     }
 
+    // 3. Transacciones Beneficiario (o sea, el dinero recibido)
     @Override
     public List<Transaccion> obtenerTransaccionesPorUsuarioBeneficiario(int idUsuario) {
         return transacciones.stream()

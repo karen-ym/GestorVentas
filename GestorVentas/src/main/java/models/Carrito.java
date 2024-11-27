@@ -19,7 +19,6 @@ public class Carrito {
     	this.idUsuario = idUsuario;
     	this.listaArticulos = articulos;
 	}
-    // Debería añadir métodos para el carrito, onda agregar art y eso después
     
     public List<Articulo> getCarrito() {
 		return new ArrayList<Articulo>(listaArticulos);

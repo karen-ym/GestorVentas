@@ -56,4 +56,16 @@ public class UsuariosRepoSingleton implements UsuariosRepo{
 		this.listaUsuarios.removeIf((u)-> u.getId() == id);
 	}
 
+	// Agrego para actualizar transacciones -K
+	@Override
+    public void update(Usuario usuarioActualizado) {
+        for (int i = 0; i < listaUsuarios.size(); i++) {
+            Usuario usuario = listaUsuarios.get(i);
+            if (usuario.getId() == usuarioActualizado.getId()) {
+                listaUsuarios.set(i, usuarioActualizado); 
+                return; 
+            }
+        }
+    }
+
 }
