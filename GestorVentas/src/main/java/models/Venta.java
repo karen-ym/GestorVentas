@@ -8,14 +8,14 @@ public class Venta {
     private int idVenta;
     private String nombreUsuario;
     private double total;
-    private List<Stock> articulos;
+    private List<Articulo> articulos;
     private LocalDate fechaVenta;
 
     public Venta() {
         super();
     }
 
-    public Venta(int id, String nombreUsuario, double total, List<Stock> articulos, LocalDate fechaVenta) {
+    public Venta(int id, String nombreUsuario, double total, List<Articulo> articulos, LocalDate fechaVenta) {
         this.idVenta = id;
         this.nombreUsuario = nombreUsuario;
         this.total = total;
@@ -26,8 +26,8 @@ public class Venta {
     public double calcularTotal() {
         double total = 0;
         if (articulos != null) {
-            for (Stock articulo : articulos) {
-                total += articulo.getPrecio() * articulo.getCantidad(); // Suponiendo que Stock tiene estos métodos
+            for (Articulo articulo : articulos) {
+                total += articulo.getPrecio() * articulo.getStock();
             }
         }
         return total;
@@ -51,10 +51,10 @@ public class Venta {
         this.total = total;
     }
 
-    public List<Stock> getArticulos() {
+    public List<Articulo> getArticulos() {
         return articulos;
     }
-    public void setArticulos(List<Stock> articulos) {
+    public void setArticulos(List<Articulo> articulos) {
         this.articulos = articulos;
         this.total = calcularTotal();
     }

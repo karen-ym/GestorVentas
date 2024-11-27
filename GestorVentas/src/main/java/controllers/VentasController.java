@@ -26,17 +26,17 @@ public class VentasController extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String accion = Optional.ofNullable(request.getParameter("accion")).orElse("historial");
+        String accion = Optional.ofNullable(request.getParameter("accion")).orElse("Historial");
 
         switch (accion) {
-            case "historial":
+            case "Historial":
                 getHistorial(request, response);
                 break;
-            case "detalleVenta":
+            case "DetalleVenta":
                 getDetalle(request, response);
                 break;
             default:
-                response.sendError(HttpServletResponse.SC_NOT_FOUND, "Acción GET no encontrada: " + accion);
+                response.sendError(HttpServletResponse.SC_NOT_FOUND, "Acciï¿½n GET no encontrada: " + accion);
                 break;
         }
     }
@@ -45,7 +45,7 @@ public class VentasController extends HttpServlet {
             throws ServletException, IOException {
         List<Venta> ventas = ventasRepo.getAll();
         request.setAttribute("listaVentas", ventas);
-        request.getRequestDispatcher("/views/ventas/historial.jsp").forward(request, response);
+        request.getRequestDispatcher("/views/Ventas/Historial.jsp").forward(request, response);
     }
 
     private void getDetalle(HttpServletRequest request, HttpServletResponse response)
@@ -59,9 +59,9 @@ public class VentasController extends HttpServlet {
                 return;
             }
             request.setAttribute("venta", venta);
-            request.getRequestDispatcher("/views/ventas/detalle.jsp").forward(request, response);
+            request.getRequestDispatcher("/views/Ventas/DetalleVenta.jsp").forward(request, response);
         } catch (NumberFormatException e) {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "ID de venta inválido");
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "ID de venta invï¿½lido");
         }
     }
 
@@ -69,7 +69,7 @@ public class VentasController extends HttpServlet {
             throws ServletException, IOException {
         String accion = request.getParameter("accion");
         if (accion == null) {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Acción no especificada");
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Acciï¿½n no especificada");
             return;
         }
 
@@ -81,7 +81,7 @@ public class VentasController extends HttpServlet {
                 postDelete(request, response);
                 break;
             default:
-                response.sendError(HttpServletResponse.SC_NOT_FOUND, "Acción POST no encontrada: " + accion);
+                response.sendError(HttpServletResponse.SC_NOT_FOUND, "Acciï¿½n POST no encontrada: " + accion);
                 break;
         }
     }
@@ -90,7 +90,7 @@ public class VentasController extends HttpServlet {
         String cliente = request.getParameter("cliente");
         String sTotal = request.getParameter("total");
 
-        // Validaciones básicas
+        // Validaciones bï¿½sicas
         if (cliente == null || cliente.isEmpty() || sTotal == null || sTotal.isEmpty()) {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Datos incompletos");
             return;
@@ -108,7 +108,7 @@ public class VentasController extends HttpServlet {
             ventasRepo.insert(nuevaVenta);
             response.sendRedirect("VentasController?accion=historial");
         } catch (NumberFormatException e) {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Formato de total inválido");
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Formato de total invï¿½lido");
         }
     }
 
@@ -119,7 +119,7 @@ public class VentasController extends HttpServlet {
             ventasRepo.delete(id);
             response.sendRedirect("VentasController?accion=historial");
         } catch (NumberFormatException e) {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "ID inválido para eliminación");
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "ID invï¿½lido para eliminaciï¿½n");
         }
     }
 }
