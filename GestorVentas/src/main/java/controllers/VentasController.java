@@ -2,6 +2,7 @@ package controllers;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -11,7 +12,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import models.Articulo;
 import models.Venta;
+import models.VentaArticulo;
 import repositories.interfaces.VentasRepo;
 import repositories.VentasRepoSingleton;
 
@@ -69,7 +72,7 @@ public class VentasController extends HttpServlet {
             throws ServletException, IOException {
         String accion = request.getParameter("accion");
         if (accion == null) {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Acci�n no especificada");
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Acción no especificada");
             return;
         }
 
@@ -81,38 +84,41 @@ public class VentasController extends HttpServlet {
                 postDelete(request, response);
                 break;
             default:
-                response.sendError(HttpServletResponse.SC_NOT_FOUND, "Acci�n POST no encontrada: " + accion);
+                response.sendError(HttpServletResponse.SC_NOT_FOUND, "Acción POST no encontrada: " + accion);
                 break;
         }
     }
 
     private void postInsert(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String cliente = request.getParameter("cliente");
-        String sTotal = request.getParameter("total");
+        String[] codigosArticulos = request.getParameterValues("codigoArticulo");
+        String[] cantidades = request.getParameterValues("cantidad");
 
-        // Validaciones b�sicas
-        if (cliente == null || cliente.isEmpty() || sTotal == null || sTotal.isEmpty()) {
+        if (cliente == null || codigosArticulos == null || cantidades == null) {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Datos incompletos");
             return;
         }
 
-        try {
-            double total = Double.parseDouble(sTotal);
-            LocalDate fechaVenta = LocalDate.now(); 
+        List<VentaArticulo> articulosVendidos = new ArrayList<>();
+        for (int i = 0; i < codigosArticulos.length; i++) {
+            int codigo = Integer.parseInt(codigosArticulos[i]);
+            int cantidad = Integer.parseInt(cantidades[i]);
 
-            Venta nuevaVenta = new Venta();
-            nuevaVenta.setNombreUsuario(cliente);
-            nuevaVenta.setTotal(total);
-            nuevaVenta.setFechaVenta(fechaVenta);
-
-            ventasRepo.insert(nuevaVenta);
-            response.sendRedirect("VentasController?accion=historial");
-        } catch (NumberFormatException e) {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Formato de total inv�lido");
+            Articulo articulo = buscarArticuloPorCodigo(codigo);
+            if (articulo != null) {
+                articulosVendidos.add(new VentaArticulo(articulo, cantidad));
+            }
         }
+
+        Venta nuevaVenta = new Venta();
+        nuevaVenta.setNombreUsuario(cliente);
+        nuevaVenta.setArticulo(articulosVendidos);
+        ventasRepo.insert(nuevaVenta);
+        response.sendRedirect("VentasController?accion=historial");
     }
 
-    private void postDelete(HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+	private void postDelete(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String sId = request.getParameter("id");
         try {
             int id = Integer.parseInt(sId);

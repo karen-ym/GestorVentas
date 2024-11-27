@@ -36,6 +36,7 @@
                         <td>${articulo.nombre}</td>
                         <td>${articulo.cantidad}</td>
                         <td>${articulo.precio}</td>
+                        <td>${venta.fechaVenta}</td>
                     </tr>
                 </c:forEach>
             </tbody>

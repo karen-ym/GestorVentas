@@ -10,28 +10,43 @@ public class Venta {
     private double total;
     private List<Articulo> articulos;
     private LocalDate fechaVenta;
+    private List<VentaArticulo> articulo;
+    
 
     public Venta() {
         super();
     }
 
-    public Venta(int id, String nombreUsuario, double total, List<Articulo> articulos, LocalDate fechaVenta) {
+    public Venta(int id, String nombreUsuario, double total, List<Articulo> articulos, LocalDate fechaVenta, List<VentaArticulo> articulo) {
         this.idVenta = id;
         this.nombreUsuario = nombreUsuario;
         this.total = total;
         this.articulos = articulos;
         this.fechaVenta = fechaVenta;
+        this.articulo = articulo;
     }
 
     public double calcularTotal() {
         double total = 0;
         if (articulos != null) {
             for (Articulo articulo : articulos) {
-                total += articulo.getPrecio() * articulo.getStock();
+                total += articulo.getPrecio() * articulo.getPrecio();
             }
         }
         return total;
     }
+    /*public double calcularTotal() {
+        return articulos.stream()
+                .mapToDouble(a -> a.getPrecio() * a.getCantidad())
+                .sum();
+    }*/
+    /*public double calcularTotals() {
+        total = 0;
+        for (VentaArticulo va : articulo) {
+            total += va.calcularSubtotal();
+        }
+        return total;
+    }*/
 
     public int getIdVenta() {
         return idVenta;
@@ -43,7 +58,12 @@ public class Venta {
     public void setNombreUsuario(String nombreUsuario) {
         this.nombreUsuario = nombreUsuario;
     }
-
+    
+    public void setArticulo(List<VentaArticulo> articulo) {
+        this.articulo = articulo;
+        calcularTotal();
+    }
+    
     public double getTotal() {
         return total;
     }
@@ -65,4 +85,10 @@ public class Venta {
     public void setFechaVenta(LocalDate fechaVenta) {
         this.fechaVenta = fechaVenta;
     }
+
+	@Override
+	public String toString() {
+		return "Venta [idVenta=" + idVenta + ", nombreUsuario=" + nombreUsuario + ", total=" + total + ", articulos="
+				+ articulos + ", fechaVenta=" + fechaVenta + "]";
+	}
 }

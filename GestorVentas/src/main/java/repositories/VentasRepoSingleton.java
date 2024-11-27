@@ -35,12 +35,13 @@ public class VentasRepoSingleton implements VentasRepo {
     }
 
     @Override
-    public void insert(Venta venta) {
+    public synchronized void insert(Venta venta) {
         ventas.add(venta);
     }
 
     @Override
-    public void delete(int id) {
+    public synchronized void delete(int id) {
         ventas.removeIf(venta -> venta.getIdVenta() == id);
     }
+
 }
