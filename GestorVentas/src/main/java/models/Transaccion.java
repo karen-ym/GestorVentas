@@ -6,7 +6,7 @@ public class Transaccion {
 	public int id;
 	public int idUsuarioDeudor;
 	public int idUsuarioBeneficiario;
-	public double montoTransaccionado; // ? es una palabra? creo que si
+	public double montoTransaccionado; 
 
 	// CONSTRUCTOR
 	public Transaccion(int id, int idUsuarioDeudor, int idUsuarioBeneficiario, double montoTransaccionado) {
