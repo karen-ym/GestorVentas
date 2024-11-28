@@ -82,7 +82,7 @@ public class CarritosController extends HttpServlet {
 		int idUsuario = Integer.parseInt(sId);
 		
 		List<Articulo> articulos = articulosRepo.getAll();
-		request.setAttribute("idUsuario",idUsuario );
+		request.setAttribute("idUsuario", idUsuario);
 		request.setAttribute("articulos",articulos );
 		
 		request.getRequestDispatcher("/views/carritos/index.jsp").forward(request, response);
@@ -157,12 +157,14 @@ public class CarritosController extends HttpServlet {
 	}
 
 	//funcion para confirmar la compra
-	private void PostComprar(HttpServletRequest request, HttpServletResponse response) {
+	private void PostComprar(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		String sId = request.getParameter("idUsuario");
 	
 		int idUsuario = Integer.parseInt(sId);
 
 		carritosRepo.comprarCarrito(idUsuario);
+		
+		response.sendRedirect("Carritos");
 	}
 
 	// Funcion para borrar un articulo
