@@ -15,21 +15,21 @@ public class Carrito {
         this.idUsuario = idusuario;
     } 
     
-    public Carrito(int idUsuario, ArrayList<Articulo> articulos) {
+    /*public Carrito(int idUsuario, ArrayList<Articulo> articulos) {
     	this.idUsuario = idUsuario;
     	this.listaArticulos = articulos;
-	}
+	}*/
     
-    public List<Articulo> getCarrito() {
+    public List<Articulo> getArticulos() {
 		return new ArrayList<Articulo>(listaArticulos);
 	}
 
-	public boolean addCarrito(Articulo articulo) {
+	public boolean addArticulo(Articulo articulo) {
 		boolean resultado = this.listaArticulos.add(articulo);
 		return resultado;
 	}
 	
-	public Articulo getArticulo(int codigo) {
+	public Articulo findByCodigo(int codigo) {
 		return this.listaArticulos.stream().filter(a -> a.getCodigo() == codigo).findFirst().orElse(null);
 	}
 	
@@ -37,8 +37,18 @@ public class Carrito {
 		return listaArticulos.removeIf(a -> a.getCodigo() == id);
 	}
 	
-	public double precioTotalCarrito() {
-		return this.listaArticulos.stream().mapToDouble(Articulo::getPrecio).sum();
+	public boolean editArticulo(int codigo, int cantidad) {
+		Articulo articulo = this.findByCodigo(codigo);
+		if(articulo != null) {
+			articulo.setStock(cantidad);
+			return true;
+		}else {
+			return false;
+		}
+	}
+	
+	public double precioTotal() {
+		return this.listaArticulos.stream().mapToDouble(a -> a.getStock()* a.getPrecio()).sum();
 	}
 	
 	public int cantArticulos() {
@@ -51,11 +61,6 @@ public class Carrito {
 
 	public void setIdUsuario(int idCarrtio) {
 		this.idUsuario = idCarrtio;
-	}
-	
-	public void editarArticulo(int codigo, int cantidad) {
-		Articulo articulo = this.listaArticulos.stream().filter(a -> a.getCodigo() == codigo).findFirst().orElse(null);
-		articulo.setStock(cantidad);
 	}
 	
 	@Override

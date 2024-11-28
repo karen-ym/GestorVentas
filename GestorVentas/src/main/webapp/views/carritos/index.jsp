@@ -8,7 +8,7 @@
 <title>Insert title here</title>
 </head>
 <body>	
-		<h1>Carrito</h1>
+		<h1>Tienda</h1>
 		<table border="1">
 		<thead>
 			<tr>
@@ -27,11 +27,13 @@
 					<td><c:out value="${articulo.descripcion }" /></td>
 					<td><c:out value="${articulo.precio }" /></td>
 					<td><c:out value="${articulo.stock }" /></td>
-					<td><a href="carritos?accion=comprar&id=${articulo.codigo}&usuarioId=${idUsuario}">Comprar</a></td>
+					<td>
+						<a href="Carritos?accion=add&idUsuario=${idUsuario}&codigo=${articulo.codigo}">Comprar</a>
+					</td>
 				</tr>
 			</c:forEach>
 		</tbody>
 		</table>
-		<a href="carritos?accion=carrito&id=${idUsuario}">Ver Carrito</a>
+		<a href="Carritos?accion=carrito&idUsuario=${idUsuario}">Ver Carrito</a>
 </body>
 </html>

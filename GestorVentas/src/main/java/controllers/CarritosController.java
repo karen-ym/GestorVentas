@@ -1,6 +1,7 @@
 package controllers;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -42,20 +43,42 @@ public class CarritosController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String accion = request.getParameter("accion");
-		accion = Optional.ofNullable(accion).orElse("carrito");
+		accion = Optional.ofNullable(accion).orElse("index");
 		
 		switch (accion) {
 		case "index" -> getIndex(request,response);
-		case "carrito" -> getCarrito(request,response);
 		case "add" -> getAdd(request,response);
+		case "carrito" -> getCarrito(request,response);
+		case "show" -> getShow(request,response);
 		case "edit" -> getEdit(request,response);
 		default ->response.sendError(404);
 		}
 	}
 
+
+	private void getAdd(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+		String sId = request.getParameter("idUsuario");
+		String cId = request.getParameter("codigo");
+		
+		int idUsuario = Integer.parseInt(sId);
+		int codigo = Integer.parseInt(cId);
+		
+		Articulo articulo = articulosRepo.findByCodigo(codigo);
+		
+		if(articulo == null) {
+			 response.sendError(404, "Artículo no encontrado"); 
+	            return;
+		}
+		
+		request.setAttribute("articulo", articulo);
+		request.setAttribute("idUsuario", idUsuario);
+		
+		request.getRequestDispatcher("/views/carritos/add.jsp").forward(request, response);
+	}
+
 	//Funcion que muestra una lista de articulos para comprar(de prueba)
 	private void getIndex(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String sId = request.getParameter("idUsuario");
+		String sId = request.getParameter("IdUsuario");
 		int idUsuario = Integer.parseInt(sId);
 		
 		List<Articulo> articulos = articulosRepo.getAll();
@@ -65,47 +88,52 @@ public class CarritosController extends HttpServlet {
 		request.getRequestDispatcher("/views/carritos/index.jsp").forward(request, response);
 	}
 
-	// Funcion que muestra el carrito del usuario
-	private void getCarrito(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Carrito carrito = carritosRepo.obtenerCarrito(1);
-		List<Articulo> articulos = carrito.getCarrito();	
-		double precioTotal = carrito.precioTotalCarrito();
-		
-		request.setAttribute("articulos", articulos);
-		request.setAttribute("precioTotal", precioTotal);
-		request.setAttribute("idUsuario", 1);
-		request.getRequestDispatcher("/views/carritos/carrito.jsp").forward(request, response);
-	}
-	//Muestra el producto a editar
-	private void getEdit(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String sId = request.getParameter("idUsuario");//aca iria el id del usuario
+	//Muestra los detalles del articulo en el carrito
+	private void getShow(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String sId = request.getParameter("idUsuario");
 		String cId = request.getParameter("codigo");
 		
 		int idUsuario = Integer.parseInt(sId);
 		int codigo = Integer.parseInt(cId);
 		
-		Carrito carritoBuscado = carritosRepo.obtenerCarrito(codigo);
-		Articulo articulo = carritoBuscado.getArticulo(codigo);
+		Articulo articulo = carritosRepo.findByIdArticulo(idUsuario, codigo);
+		 if (articulo == null) {
+	            response.sendError(404, "Artículo no encontrado"); 
+	            return;
+	        }
+		
+		request.setAttribute("articulo", articulo);
+		request.getRequestDispatcher("/views/carritos/show.jsp").forward(request, response);
+	}
+
+	// Muestra los articulos del Carrito
+	private void getCarrito(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String sId = request.getParameter("idUsuario");
+		int idUsuario = Integer.parseInt(sId);
+		
+		List<Articulo> articulos = carritosRepo.getAll(idUsuario);
+		articulos = articulos != null ? articulos : new ArrayList<>();
+		double precioTotal = carritosRepo.precioTotal(idUsuario);
+		
+		request.setAttribute("articulos", articulos);
+		request.setAttribute("precioTotal", precioTotal);
+		request.setAttribute("idUsuario", sId);
+		request.getRequestDispatcher("/views/carritos/carrito.jsp").forward(request, response);
+	}
+	
+	//Muestra el articulo a editar del Carrito
+	private void getEdit(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String sId = request.getParameter("idUsuario");
+		String cId = request.getParameter("codigo");
+		
+		int idUsuario = Integer.parseInt(sId);
+		int codigo = Integer.parseInt(cId);
+		
+		Articulo articulo = carritosRepo.findByIdArticulo(idUsuario, codigo);
 		
 		request.setAttribute("idUsuario",idUsuario );
 		request.setAttribute("articulo",articulo );
 		request.getRequestDispatcher("/views/carritos/edit.jsp").forward(request, response);
-	}
-
-	//Muestra el articulo que se quiere comprar
-	private void getAdd(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String cId = request.getParameter("codigo");
-		String uId = request.getParameter("idUsuario");
-		
-		int idUsuario = Integer.parseInt(uId);
-		int codigo = Integer.parseInt(cId);
-		
-		Articulo articulo = articulosRepo.findByCodigo(codigo);
-		
-		request.setAttribute("idUsuario",idUsuario );
-		request.setAttribute("articulo",articulo );
-		
-		request.getRequestDispatcher("/views/carritos/add.jsp").forward(request, response);
 	}
 
 	/**
@@ -126,7 +154,6 @@ public class CarritosController extends HttpServlet {
 		case "comprar" -> PostComprar(request,response);
 		default ->response.sendError(404); 
 		}
-		response.sendError(400,"No implementado");
 	}
 
 	//funcion para confirmar la compra
@@ -144,51 +171,44 @@ public class CarritosController extends HttpServlet {
 		String aId = request.getParameter("codigo");
 		
 		int idUsuario = Integer.parseInt(sId);
-		int codigoArticulo = Integer.parseInt(aId);
+		int codigo = Integer.parseInt(aId);
 		
-		Carrito carrito = carritosRepo.obtenerCarrito(idUsuario);
-		carrito.deleteArticulo(codigoArticulo);
-		
+		carritosRepo.delete(idUsuario, codigo);
 		
 		response.sendRedirect("Carritos");
+	
+		
 	}
 
-	//funcion para Agregar un articulo
+	//Funcion para Agregar un articulo
 	private void postInsert(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		String sId = request.getParameter("idUsuario");
-		String aId = request.getParameter("codigo");
-		String cId = request.getParameter("cantidad");
+	    int idUsuario = Integer.parseInt(request.getParameter("idUsuario"));
+		int codigo = Integer.parseInt(request.getParameter("codigo"));
+	    String nombre = request.getParameter("nombre");
+	    String descripcion = request.getParameter("descripcion");
+	    double precio = Double.parseDouble(request.getParameter("precio"));
+	    int cantidad = Integer.parseInt(request.getParameter("cantidad"));
 		
-		int idUsuario = Integer.parseInt(sId);
-		int codigoArticulo = Integer.parseInt(aId);
-		int cantidad = Integer.parseInt(cId);
+		Articulo articulo = new Articulo(codigo, nombre, descripcion, precio, cantidad);
 		
-		Articulo articulo = articulosRepo.findByCodigo(codigoArticulo);
-		articulo.setStock(cantidad);
-		
-		Carrito carrito = carritosRepo.obtenerCarrito(idUsuario);
-		carrito.addCarrito(articulo);
-		
-		
+		carritosRepo.add(idUsuario, articulo);
 		response.sendRedirect("Carritos");
 		
 		
 	}
 
-	//funcion para actualizar la cantidad de articulos
+	//Funcion para actualizar la cantidad de articulos
 	private void postUpdate(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		String sId = request.getParameter("idUsuario");
-		String aId = request.getParameter("codigo");
-		String cId = request.getParameter("cantidad");
+		int idUsuario = Integer.parseInt(request.getParameter("idUsuario"));
+		int codigo = Integer.parseInt(request.getParameter("codigo"));
+		int cantidad = Integer.parseInt(request.getParameter("cantidad"));
+			
 		
-		int idUsuario = Integer.parseInt(sId);
-		int codigoArticulo = Integer.parseInt(aId);
-		int cantidad = Integer.parseInt(cId);
-		
-		Carrito carrito = carritosRepo.obtenerCarrito(idUsuario);
-		carrito.editarArticulo(codigoArticulo, cantidad);
-		
-		response.sendRedirect("Carritos");
+		if(carritosRepo.edit(idUsuario, codigo, cantidad)) {
+			response.sendRedirect("Carritos");
+		}else {
+			response.sendError(404,"No se encontro el articulo");
+		}
 		
 	}
 

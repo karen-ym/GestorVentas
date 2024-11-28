@@ -3,6 +3,7 @@ package repositories;
 import java.util.ArrayList;
 import java.util.List;
 
+import models.Articulo;
 import models.Carrito;
 import repositories.interfaces.CarritosRepo;
 
@@ -24,7 +25,7 @@ private static CarritosRepoSingleton singleton;
 	}
 
 	@Override
-	public Carrito obtenerCarrito(int idUsuario) {
+	public Carrito findByIdCarrito(int idUsuario) {
 		Carrito carrito = listaCarritos.stream()
 	            .filter(a -> a.getIdUsuario() == idUsuario)
 	            .findFirst()
@@ -39,6 +40,49 @@ private static CarritosRepoSingleton singleton;
 	@Override
 	public boolean comprarCarrito(int idUsuario) {
 		return this.listaCarritos.removeIf(a -> a.getIdUsuario() == idUsuario);
+	}
+
+	@Override
+	public boolean add(int idUsuario, Articulo articulo) {
+		Carrito carrito = this.findByIdCarrito(idUsuario);
+		return carrito.addArticulo(articulo);
+	}
+
+	@Override
+	public boolean delete(int idUsuario, int codigo) {
+		Carrito carrito = this.findByIdCarrito(idUsuario);
+		return carrito.deleteArticulo(codigo);
+	}
+
+	@Override
+	public Articulo findByIdArticulo(int idUsuario, int codigo) {
+		Carrito carrito = this.findByIdCarrito(idUsuario);
+		Articulo articulo = carrito.findByCodigo(codigo);
+		return articulo;
+	}
+
+	@Override
+	public List<Articulo> getAll(int idUsuario) {
+		Carrito carrito = this.findByIdCarrito(idUsuario);
+		return carrito.getArticulos();
+	}
+
+	@Override
+	public double precioTotal(int idUsuario) {
+		Carrito carrito = this.findByIdCarrito(idUsuario);
+		return carrito.precioTotal();
+	}
+
+	@Override
+	public int totalArticulos(int idUsuario) {
+		Carrito carrito = this.findByIdCarrito(idUsuario);
+		return carrito.cantArticulos();
+	}
+
+	@Override
+	public boolean edit(int idUsuario, int codigo, int cantidad) {
+		Carrito carrito = this.findByIdCarrito(idUsuario);
+		return carrito.editArticulo(codigo, cantidad);
 	}
 	
 	

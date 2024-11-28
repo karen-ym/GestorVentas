@@ -12,6 +12,11 @@
 		
 	<form action="Carritos" method="post">
 		<input type="hidden" value="update" name="accion">
+		<input type="hidden" value="${idUsuario}" name="idUsuario">
+		<p>
+			Precio: <c:out value="${articulo.codigo }" />
+	        <input type="hidden" name="codigo" value="${articulo.codigo}">
+		</p>
 		<p>
 			Nombre: <c:out value="${articulo.nombre }" />
 		</p>
@@ -19,7 +24,7 @@
 			Precio: <c:out value="${articulo.precio }" />
 		</p>
 		<p>
-			Cantidad: <input value="${empleado.stock }" name="cantidad" />
+			Cantidad: <input type="number" name="cantidad" value="${articulo.stock}"/>
 		</p>
 		<input type="submit" value="Editar" />
 	</form>

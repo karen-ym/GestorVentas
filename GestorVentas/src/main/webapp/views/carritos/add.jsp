@@ -1,32 +1,40 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<title>Articulo</title>
 </head>
 <body>
 	<form action="Carritos" method="post">
-		<input type="hidden" name="accion" value="insert">
-		<p>
-			Código: <c:out value="${articulo.codigo}" />
-		</p>
-		<p>
-			Nombre: <c:out value="${articulo.nombre}" />
-		</p>
-		<p>
-			Descripción: <c:out value="${articulo.descripcion}" />
-		</p>
-		<p>
-			Precio: <c:out value="${articulo.precio}" />
-		</p>
-		<p>
-			<input type="hidden" name="idUsuario" value="${idUsuario}"/>
-			Stock: <input type="number" name="stock" value=""/>
-		</p>
-		<input type="submit" value="Agregar al carrito"/>
+	    <input type="hidden" name="accion" value="insert">
+	    <input type="hidden" name="idUsuario" value="${idUsuario}">
+	    <p>
+	        Código: <span>${articulo.codigo}</span>
+	        <input type="hidden" name="codigo" value="${articulo.codigo}">
+	    </p>
+	    <p>
+	        Nombre: <span>${articulo.nombre}</span>
+	        <input type="hidden" name="nombre" value="${articulo.nombre}">
+	    </p>
+	    <p>
+	        Descripción: <span>${articulo.descripcion}</span>
+	        <input type="hidden" name="descripcion" value="${articulo.descripcion}">
+	    </p>
+	    <p>
+	        Precio: <span>${articulo.precio}</span>
+	        <input type="hidden" name="precio" value="${articulo.precio}">
+	    </p>
+	    
+	    <p>
+	    	Cantidad:
+	    	<input type="number" name="cantidad" value="${1}">
+	    </p>
+	
+	    <input type="submit" value="Comprar">
 	</form>
+
+	
 </body>
 </html>

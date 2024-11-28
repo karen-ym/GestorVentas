@@ -15,8 +15,9 @@
 				<th>Nombre</th>
 				<th>Descripcion</th>
 				<th>Precio</th>
-				<th>Stock</th>
+				<th>Cantidad</th>
 				<th>codigo</th>
+				<th></th>
 				<th></th>
 				<th></th>
 			</tr> 
@@ -30,18 +31,25 @@
 					<td><c:out value="${articulo.precio }" /></td>
 					<td><c:out value="${articulo.stock }" /></td>
 					<td><c:out value="${articulo.codigo }" /></td>
+					<td><a href="Carritos?accion=show&codigo=${articulo.codigo}&idUsuario=${idUsuario}">Detalle</a></td>
+					<td><a href="Carritos?accion=edit&codigo=${articulo.codigo}&idUsuario=${idUsuario}">Editar</a></td>
 					<td>
 						<form action="Carritos" method="post">
 							<input type="hidden" name="codigo" value="${articulo.codigo}">
+							<input type="hidden" name="idUsuario" value="${idUsuario}">
 							<input type="hidden" name="accion" value="delete">
-							<input type="submit" value="Elimiar Articulo">
+							<input type="submit" value="Elimiar">
 						</form>
 					</td>
-					<td><a href="Carritos?accion=edit&codigo=${articulo.codigo}&idUsuario=${idUsuario}">Editar</a></td>
 				</tr>
 			</c:forEach>
 		</tbody>
 		</table>
 		Precio Total: <c:out value="${precioTotal}" />
+		<form action="Carritos" method="post">
+			<input type="hidden" name="idUsuario" value="${idUsuario}">
+			<input type="hidden" name="accion" value="comprar">
+			<input type="submit" value="Comprar Carrito">
+		</form>
 </body>
 </html>
