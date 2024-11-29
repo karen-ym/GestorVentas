@@ -12,6 +12,7 @@
     <p><strong>ID Venta:</strong> ${venta.idVenta}</p>
     <p><strong>Usuario:</strong> ${venta.nombreUsuario}</p>
     <p><strong>Total:</strong> ${venta.total}</p>
+    <p><strong>Fecha de Venta:</strong> ${venta.fechaVenta}</p> <!-- Mover la fecha aquí -->
 
     <h2>Artículos Comprados</h2>
     <c:if test="${empty venta.articulos}">
@@ -26,7 +27,6 @@
                     <th>Nombre</th>
                     <th>Cantidad</th>
                     <th>Precio Unitario</th>
-                    <th>Fecha </th>
                 </tr>
             </thead>
             <tbody>
@@ -34,9 +34,8 @@
                     <tr>
                         <td>${articulo.codigo}</td>
                         <td>${articulo.nombre}</td>
-                        <td>${articulo.cantidad}</td>
+                        <td>${articulo.stock}</td> <!-- Cambiado de cantidad a stock -->
                         <td>${articulo.precio}</td>
-                        <td>${venta.fechaVenta}</td>
                     </tr>
                 </c:forEach>
             </tbody>
@@ -44,6 +43,6 @@
     </c:if>
 
     <br/>
-    <a href="VentasController?accion=historial">Volver al Historial</a>
+    <a href="VentasController?accion=Historial">Volver al Historial</a>
 </body>
 </html>

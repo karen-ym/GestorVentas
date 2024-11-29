@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import models.Articulo;
 import models.Venta;
-import models.VentaArticulo;
+import repositories.interfaces.ArticulosRepo;
 import repositories.interfaces.VentasRepo;
 import repositories.VentasRepoSingleton;
 
@@ -22,6 +22,7 @@ import repositories.VentasRepoSingleton;
 public class VentasController extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private VentasRepo ventasRepo;
+    private ArticulosRepo articulosRepo;
        
     public VentasController() {
         this.ventasRepo = VentasRepoSingleton.getInstance();
@@ -32,15 +33,9 @@ public class VentasController extends HttpServlet {
         String accion = Optional.ofNullable(request.getParameter("accion")).orElse("Historial");
 
         switch (accion) {
-            case "Historial":
-                getHistorial(request, response);
-                break;
-            case "DetalleVenta":
-                getDetalle(request, response);
-                break;
-            default:
-                response.sendError(HttpServletResponse.SC_NOT_FOUND, "Acci�n GET no encontrada: " + accion);
-                break;
+	        case "Historial" -> getHistorial(request, response);
+	        case "DetalleVenta" -> getDetalle(request, response);
+			default -> response.sendError(404);
         }
     }
 
@@ -77,48 +72,48 @@ public class VentasController extends HttpServlet {
         }
 
         switch (accion) {
-            case "insert":
-                postInsert(request, response);
-                break;
-            case "delete":
-                postDelete(request, response);
-                break;
-            default:
-                response.sendError(HttpServletResponse.SC_NOT_FOUND, "Acción POST no encontrada: " + accion);
-                break;
+	        case "insert" -> postInsert(request, response);
+	        case "delete" -> postDelete(request, response);
+			default -> response.sendError(404);
         }
     }
 
     private void postInsert(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String cliente = request.getParameter("cliente");
-        String[] codigosArticulos = request.getParameterValues("codigoArticulo");
-        String[] cantidades = request.getParameterValues("cantidad");
+        String[] codigosArticulos = request.getParameterValues("articulosSeleccionados"); // Array de códigos de artículos
 
-        if (cliente == null || codigosArticulos == null || cantidades == null) {
+        if (cliente == null || cliente.isEmpty() || codigosArticulos == null || codigosArticulos.length == 0) {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Datos incompletos");
             return;
         }
 
-        List<VentaArticulo> articulosVendidos = new ArrayList<>();
-        for (int i = 0; i < codigosArticulos.length; i++) {
-            int codigo = Integer.parseInt(codigosArticulos[i]);
-            int cantidad = Integer.parseInt(cantidades[i]);
-
-            Articulo articulo = buscarArticuloPorCodigo(codigo);
-            if (articulo != null) {
-                articulosVendidos.add(new VentaArticulo(articulo, cantidad));
+        try {
+            List<Articulo> articulosSeleccionados = new ArrayList<>();
+            for (String codigoStr : codigosArticulos) {
+                int codigo = Integer.parseInt(codigoStr);
+                Articulo articulo = articulosRepo.findByCodigo(codigo);
+                if (articulo != null) {
+                    articulosSeleccionados.add(articulo);
+                }
             }
-        }
 
-        Venta nuevaVenta = new Venta();
-        nuevaVenta.setNombreUsuario(cliente);
-        nuevaVenta.setArticulo(articulosVendidos);
-        ventasRepo.insert(nuevaVenta);
-        response.sendRedirect("VentasController?accion=historial");
+            if (articulosSeleccionados.isEmpty()) {
+                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "No se encontraron artículos validos");
+                return;
+            }
+
+            double total = articulosSeleccionados.stream().mapToDouble(Articulo::getPrecio).sum();
+            LocalDate fechaVenta = LocalDate.now();
+            Venta nuevaVenta = new Venta(0, cliente, total, articulosSeleccionados, fechaVenta);
+            
+            ventasRepo.insert(nuevaVenta);
+            response.sendRedirect("VentasController?accion=Historial");
+        } catch (NumberFormatException e) {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Codigo de artículo invalido");
+        }
     }
 
-
-	private void postDelete(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    private void postDelete(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String sId = request.getParameter("id");
         try {
             int id = Integer.parseInt(sId);

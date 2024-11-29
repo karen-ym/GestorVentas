@@ -29,7 +29,7 @@
                         <td>${venta.idVenta}</td>
                         <td>${venta.nombreUsuario}</td>
                         <td>${venta.total}</td>
-                        <td><a href="VentasController?accion=detalleVenta&id=${venta.idVenta}">Ver Detalles</a></td>
+                        <td><a href="VentasController?accion=DetalleVenta&id=${venta.idVenta}">Ver Detalles</a></td>
                     </tr>
                 </c:forEach>
             </tbody>

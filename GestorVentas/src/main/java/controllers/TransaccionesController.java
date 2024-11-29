@@ -7,12 +7,16 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import models.Transaccion;
+import repositories.interfaces.TransaccionesRepo;
+
 /**
  * Servlet implementation class TransaccionesController
  */
 @WebServlet("/TransaccionesController")
 public class TransaccionesController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private TransaccionesRepo transaccionesRepo;
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -30,12 +34,22 @@ public class TransaccionesController extends HttpServlet {
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
-	}
+	
+	@Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        try {
+            int idDeudor = Integer.parseInt(request.getParameter("idDeudor"));
+            int idBeneficiario = Integer.parseInt(request.getParameter("idBeneficiario"));
+            double monto = Double.parseDouble(request.getParameter("monto"));
+
+            Transaccion nuevaTransaccion = new Transaccion(0, idDeudor, idBeneficiario, monto);
+            transaccionesRepo.registrarTransaccion(nuevaTransaccion);
+
+            response.getWriter().write("Transacción registrada exitosamente");
+        } catch (Exception e) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            response.getWriter().write("Error al registrar transacción: " + e.getMessage());
+        }
+    }
 
 }
