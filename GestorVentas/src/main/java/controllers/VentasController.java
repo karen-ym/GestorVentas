@@ -3,6 +3,7 @@ package controllers;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,6 +31,21 @@ public class VentasController extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+    	 VentasRepoSingleton ventasRepo = VentasRepoSingleton.getInstance();
+
+    	    if (ventasRepo.getAll().isEmpty()) {
+    	        List<Articulo> articulosVenta1 = Arrays.asList(
+    	            new Articulo(101, "Articulo A", "Descripción A", 50.0, 2)
+    	        );
+
+    	        List<Articulo> articulosVenta2 = Arrays.asList(
+    	            new Articulo(102, "Articulo B", "Descripción B", 75.0, 1)
+    	        );
+
+    	        ventasRepo.insert(new Venta(1, "cliente1", 100.0, articulosVenta1, LocalDate.now()));
+    	        ventasRepo.insert(new Venta(2, "cliente2", 75.0, articulosVenta2, LocalDate.now()));
+    	    }
+
         String accion = Optional.ofNullable(request.getParameter("accion")).orElse("Historial");
 
         switch (accion) {
