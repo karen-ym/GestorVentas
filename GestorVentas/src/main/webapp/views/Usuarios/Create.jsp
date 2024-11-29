@@ -16,7 +16,7 @@
 					Usuario: <input value="" name="nombreUsuario" />
 				</p>
 				<p>
-					Contraseña: <input value="" name="contrasenia" />
+					ContraseÃ±a: <input value="" name="contrasenia" />
 				</p>
 				<p>
 					Saldo: <input value="" name="saldoActual" />
@@ -24,8 +24,8 @@
 				<p>
 					Tipo:<select name="tipo">
 					<option value="">----</option>
-                    <option value="CLIENTE">Cliente</option>
-                    <option value="EMPLEADO">Empleado</option>
+                    <option value="cliente">Cliente</option>
+                    <option value="empleado">Empleado</option>
                     </select>
 				</p>
 				<input type="submit" value="Register" />
