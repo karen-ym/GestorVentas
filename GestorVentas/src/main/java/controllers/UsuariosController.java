@@ -108,7 +108,7 @@ public class UsuariosController extends HttpServlet {
 	
 		usuariosRepo.insert(usu);
 		
-		response.sendRedirect("usuarios");
+		response.sendRedirect("auth");
 
 }
 }
