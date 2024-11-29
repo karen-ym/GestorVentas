@@ -21,6 +21,15 @@ public class UsuariosRepoSingleton implements UsuariosRepo{
 	
 	private UsuariosRepoSingleton() {
 		this.listaUsuarios = new ArrayList<Usuario>();
+		
+		// Creo usuarios hardcodeados -k
+		Usuario admin = new Usuario("admin", "admin", "empleado", 0);
+        Usuario cliente = new Usuario("cliente", "cliente", "cliente", 1500);
+        
+        admin.setId(1);
+        cliente.setId(2);
+        this.listaUsuarios.add(admin);
+        this.listaUsuarios.add(cliente);
 	}
 
 	@Override
@@ -67,5 +76,14 @@ public class UsuariosRepoSingleton implements UsuariosRepo{
             }
         }
     }
+	
+	// Agrego otro más -K
+	@Override
+	public Usuario findByNombreUsuario(String nombreUsuario) {
+	    return this.listaUsuarios.stream()
+	            .filter(u -> u.getNombreUsuario().equals(nombreUsuario))
+	            .findFirst()
+	            .orElse(null);
+	}
 
 }

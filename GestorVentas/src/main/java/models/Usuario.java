@@ -3,10 +3,10 @@ package models;
 public class Usuario {
 	
 	// ATRIBUTOS
-	private int id;
+	public int id;
 	private String nombreUsuario; 
 	private String contrasenia;
-	private String tipo; // Asi se decide si se quiere registrar un usuario como cliente o empleado
+	private String tipo; // Cliente o empleado
 	private double saldoActual; // me evito entidad billetera
 
 	public Usuario() {

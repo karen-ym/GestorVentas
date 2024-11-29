@@ -12,6 +12,7 @@ public interface UsuariosRepo {
 
 	public void insert(Usuario usuario);
 	public void delete(int idUsuario);
-	public void update(Usuario usuario); // agrego esto porque lo necesito -K
+	public void update(Usuario usuario); // agrego esto porque lo necesito para transacciones -K
+	Usuario findByNombreUsuario(String nombreUsuario); // también agrego esto pero para auth -K
 	
 }
