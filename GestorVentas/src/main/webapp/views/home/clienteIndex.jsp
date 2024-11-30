@@ -5,6 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Bienvenido Cliente</title>
+    <link rel="stylesheet" href="css/estiloCliente.css">
 </head>
 <body class="container mt-5">
     <h1 class="mb-4">Bienvenido, <c:out value="${usuario.nombreUsuario}" /></h1>
@@ -20,8 +21,8 @@
                 <input type="hidden" name="accion" value="delete">
                 <button type="submit" class="btn btn-danger">Eliminar cuenta</button>
             </form>
-             <div>
-		        <a href="TransaccionesController?accion=index&idUsuario=${idUsuario}">Transacciones</a>
+             <div class="carrito-container">
+		        <a href="TransaccionesController?accion=index&idUsuario=${idUsuario}" class="ver-carrito">Transacciones</a>
 		    </div>
         </div>
     </div>
@@ -55,9 +56,9 @@
         </tbody>
     </table>
 
-    <div>
-        <a href="Carritos?accion=carrito&idUsuario=${idUsuario}">Ver Carrito</a>
-    </div>
+    <div class="carrito-container">
+	    <a href="Carritos?accion=carrito&idUsuario=${idUsuario}" class="ver-carrito">Ver Carrito</a>
+	</div>
    
 </body>
 </html>
