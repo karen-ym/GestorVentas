@@ -10,9 +10,9 @@
     <h1>Detalles de la Venta</h1>
 
     <p><strong>ID Venta:</strong> ${venta.idVenta}</p>
-    <p><strong>Usuario:</strong> ${venta.nombreUsuario}</p>
-    <p><strong>Total:</strong> ${venta.total}</p>
-    <p><strong>Fecha de Venta:</strong> ${venta.fechaVenta}</p>
+	<p><strong>Usuario:</strong> ${venta.nombreUsuario}</p>
+	<p><strong>Total:</strong> ${venta.total}</p>
+	<p><strong>Fecha de Venta:</strong> ${venta.fechaVenta}</p>
 
     <h2>Artículos Comprados</h2>
     <c:if test="${empty venta.articulos}">
