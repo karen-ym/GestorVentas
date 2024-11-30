@@ -12,20 +12,25 @@ import javax.servlet.http.HttpSession;
 
 import models.Articulo;
 import models.Usuario;
+import models.Venta;
 import repositories.ArticulosRepoSingleton;
 import repositories.UsuariosRepoSingleton;
+import repositories.VentasRepoSingleton;
 import repositories.interfaces.ArticulosRepo;
 import repositories.interfaces.UsuariosRepo;
+import repositories.interfaces.VentasRepo;
 
 @WebServlet("/auth")
 public class AuthController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private UsuariosRepo usuariosRepo;
 	private ArticulosRepo articulosRepo;
+	private VentasRepo ventasRepo;
 
     public AuthController() {
         this.usuariosRepo = UsuariosRepoSingleton.getInstance();
         this.articulosRepo = ArticulosRepoSingleton.getInstance();
+        this.ventasRepo = VentasRepoSingleton.getInstance();
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -57,6 +62,12 @@ public class AuthController extends HttpServlet {
 
             // Redirigir al usuario según rol (REVISAR DESPUÉS)
             if (usuario.getTipo().equals("empleado")) {
+            	List<Usuario> listaUsuario = usuariosRepo.getAll();
+            	request.setAttribute("listarda", listaUsuario);
+            	List<Venta> listaVenta = ventasRepo.getAll();
+            	request.setAttribute("listaVentas", listaVenta);
+            	List<Articulo> listaArticulos = articulosRepo.getAll();
+            	request.setAttribute("listaArticulos", listaArticulos);
                 request.getRequestDispatcher("/views/home/adminIndex.jsp").forward(request, response); 
             } else if (usuario.getTipo().equals("cliente")) {
             	List<Articulo> listaArticulos = articulosRepo.getAll();

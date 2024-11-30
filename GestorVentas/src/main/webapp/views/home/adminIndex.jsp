@@ -58,6 +58,7 @@
                     <th>Usuario</th>
                     <th>Total</th>
                     <th>Fecha</th>
+                    <th>Acciones</th>
                 </tr>
             </thead>
             <tbody>
@@ -68,7 +69,47 @@
                         <td>${venta.total}</td>
                         <td>${venta.fechaVenta}</td>
                         <td>
-                            <a href="ventas?accion=detalleVenta&id=${venta.idVenta}" class="btn btn-info btn-sm">Detalles</a>
+                            <a href="VentasController?accion=detalleVenta&id=${venta.idVenta}" class="btn btn-info btn-sm">Detalles</a>
+                        </td>
+                    </tr>
+                </c:forEach>
+            </tbody>
+        </table>
+    </c:if>
+    <!-- Sección de Artículos -->
+    <h2 class="mt-5 mb-3">Gestión de Artículos</h2>
+    <a href="articulos?accion=create" class="btn btn-success mb-3">Agregar Artículo</a>
+    <c:if test="${empty listaArticulos}">
+        <p class="text">No hay artículos registrados.</p>
+    </c:if>
+    <c:if test="${not empty listaArticulos}">
+        <table class="table table-striped table-bordered">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Código</th>
+                    <th>Nombre</th>
+                    <th>Descripción</th>
+                    <th>Precio</th>
+                    <th>Stock</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <c:forEach var="articulo" items="${listaArticulos}">
+                    <tr>
+                        <td><c:out value="${articulo.codigo}" /></td>
+                        <td><c:out value="${articulo.nombre}" /></td>
+                        <td><c:out value="${articulo.descripcion}" /></td>
+                        <td>$<c:out value="${articulo.precio}" /></td>
+                        <td><c:out value="${articulo.stock}" /></td>
+                        <td>
+                        	<a href="articulos?accion=show&codigo=${articulo.codigo}" class="btn btn-info btn-sm">Ver</a>
+                        	<a href="articulos?accion=edit&codigo=${articulo.codigo}" class="btn btn-warning btn-sm">Editar</a>
+                        	<form action="articulos" method="post" class="d-inline">
+                                <input type="hidden" name="codigo" value="${articulo.codigo}">
+                                <input type="hidden" name="accion" value="delete">
+                                <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+                            </form>
                         </td>
                     </tr>
                 </c:forEach>
