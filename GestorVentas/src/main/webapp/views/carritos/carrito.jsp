@@ -38,7 +38,7 @@
 							<input type="hidden" name="codigo" value="${articulo.codigo}">
 							<input type="hidden" name="idUsuario" value="${idUsuario}">
 							<input type="hidden" name="accion" value="delete">
-							<input type="submit" value="Elimiar">
+							<input type="submit" value="Eliminar">
 						</form>
 					</td>
 				</tr>

@@ -162,7 +162,7 @@ public class CarritosController extends HttpServlet {
 	}
 
 	//funcion para confirmar la compra y registrar la venta
-	private void PostComprar(HttpServletRequest request, HttpServletResponse response) throws IOException {
+	private void PostComprar(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 		String sId = request.getParameter("idUsuario");
 	
 		int idUsuario = Integer.parseInt(sId);
@@ -190,8 +190,10 @@ public class CarritosController extends HttpServlet {
 			response.sendError(404,"No se encontro al usuario");
 		}
 		
-		
-		response.sendRedirect("Carritos");
+		List<Articulo> listaArticulos = articulosRepo.getAll(); 
+		request.setAttribute("idUsuario", usuario.getId());
+		request.setAttribute("listaArticulos", listaArticulos);
+		request.getRequestDispatcher("/views/home/clienteIndex.jsp").forward(request, response);
 	}
 
 	// Funcion para borrar un articulo
