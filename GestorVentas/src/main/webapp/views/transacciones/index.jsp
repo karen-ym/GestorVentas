@@ -9,10 +9,10 @@
 <body>
     <h1>Detalles del usuario</h1>
 
-    <p>ID: <c:out value="${usuario.idUsuario}"></c:out></p>
+    <p>ID: <c:out value="${usuario.id}"></c:out></p>
     <p>Nombre: <c:out value="${usuario.nombreUsuario}"></c:out></p>
 
-    <a href="TransaccionesController?accion=transferir&idDeudor=${usuario.idUsuario}">Transferir Dinero</a>
-    <a href="TransaccionesController?accion=registros&idUsuario=${usuario.idUsuario}">Ver Registros de Transacciones</a>
+    <a href="TransaccionesController?accion=transferir&idDeudor=${usuario.id}">Transferir Dinero</a>
+    <a href="TransaccionesController?accion=registros&idUsuario=${usuario.id}">Ver Registros de Transacciones</a>
 </body>
 </html>

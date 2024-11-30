@@ -19,6 +19,9 @@
                 <input type="hidden" name="accion" value="delete">
                 <button type="submit" class="btn btn-danger">Eliminar cuenta</button>
             </form>
+             <div>
+		        <a href="TransaccionesController?accion=index&idUsuario=${idUsuario}">Transacciones</a>
+		    </div>
         </div>
     </div>
 
@@ -51,8 +54,9 @@
         </tbody>
     </table>
 
-    <div class="">
+    <div>
         <a href="Carritos?accion=carrito&idUsuario=${idUsuario}">Ver Carrito</a>
     </div>
+   
 </body>
 </html>
