@@ -76,16 +76,16 @@ public class ArticulosRepoSingleton implements ArticulosRepo{
     
 	@Override
 	public void update(Articulo articulo) {
-	    listaArticulos = listaArticulos.stream()
-	        .map(a -> a.getCodigo() == articulo.getCodigo() ? articulo : a)
-	        .toList();
+	     for (int i = 0; i < listaArticulos.size(); i++) {
+	            if (listaArticulos.get(i).getCodigo() == articulo.getCodigo()) {
+	                listaArticulos.set(i, articulo);
+	                break;
+	            }
+	        }
 	}
     
 	@Override
 	public void delete(int codigo) {
-	    listaArticulos = listaArticulos.stream()
-	        .filter(a -> a.getCodigo() != codigo)
-	        .toList();
+	    listaArticulos.removeIf(a -> a.getCodigo() == codigo);
 	}
-
 }

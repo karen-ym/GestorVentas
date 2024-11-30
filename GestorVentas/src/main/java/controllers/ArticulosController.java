@@ -76,7 +76,7 @@ public class ArticulosController extends HttpServlet {
     // Formulario para CREAR art
     private void getCreate(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("/articulos/create.jsp").forward(request, response);
+    		request.getRequestDispatcher("/views/articulos/create.jsp").forward(request, response);
     }
 
     // Formulario para EDITAR el art
