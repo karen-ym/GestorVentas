@@ -66,6 +66,8 @@ public class AuthController extends HttpServlet {
             	request.setAttribute("listarda", listaUsuario);
             	List<Venta> listaVenta = ventasRepo.getAll();
             	request.setAttribute("listaVentas", listaVenta);
+            	List<Articulo> listaArticulos = articulosRepo.getAll();
+            	request.setAttribute("listaArticulos", listaArticulos);
                 request.getRequestDispatcher("/views/home/adminIndex.jsp").forward(request, response); 
             } else if (usuario.getTipo().equals("cliente")) {
             	List<Articulo> listaArticulos = articulosRepo.getAll();
