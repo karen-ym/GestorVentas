@@ -48,7 +48,7 @@ public class VentasController extends HttpServlet {
         switch (accion) {
             case "historial" -> getHistorial(request, response); 
             case "detalleVenta" -> getDetalle(request, response);
-            default -> response.sendError(HttpServletResponse.SC_NOT_FOUND);
+            default -> response.sendError(404);
         }
     }
 
@@ -69,7 +69,7 @@ public class VentasController extends HttpServlet {
         	request.setAttribute("venta", venta);
             request.getRequestDispatcher("/views/Ventas/DetalleVenta.jsp").forward(request, response);
         } else {
-            response.sendError(HttpServletResponse.SC_NOT_FOUND, "Venta no encontrada");
+            response.sendError(404, "Venta no encontrada");
         }
     }
 
@@ -78,14 +78,14 @@ public class VentasController extends HttpServlet {
             throws ServletException, IOException {
         String accion = request.getParameter("accion");
         if (accion == null) {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Acción no especificada");
+        	response.sendError(404, "Accion no encontrada");
             return;
         }
 
         switch (accion) {
             case "insert" -> postInsert(request, response);
             case "delete" -> postDelete(request, response);
-            default -> response.sendError(HttpServletResponse.SC_NOT_FOUND);
+            default -> response.sendError(404);
         }
     }
 
@@ -94,7 +94,7 @@ public class VentasController extends HttpServlet {
         String[] codigosArticulos = request.getParameterValues("articulosSeleccionados"); // Array de códigos de artículos
 
         if (cliente == null || cliente.isEmpty() || codigosArticulos == null || codigosArticulos.length == 0) {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Datos incompletos");
+            response.sendError(404, "Datos incompletos");
             return;
         }
 
@@ -159,7 +159,7 @@ public class VentasController extends HttpServlet {
             ventasRepo.delete(id);
             response.sendRedirect("VentasController?accion=historial");
         } catch (NumberFormatException e) {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "ID inválido para eliminación");
+            response.sendError(404, "ID inválido para eliminación");
         }
     }
 }
