@@ -17,6 +17,7 @@ import models.Articulo;
 import models.Venta;
 import repositories.interfaces.ArticulosRepo;
 import repositories.interfaces.VentasRepo;
+import repositories.ArticulosRepoSingleton;
 import repositories.VentasRepoSingleton;
 
 @WebServlet("/VentasController")
@@ -24,34 +25,34 @@ public class VentasController extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private VentasRepo ventasRepo;
     private ArticulosRepo articulosRepo;
-       
+    
     public VentasController() {
         this.ventasRepo = VentasRepoSingleton.getInstance();
+        this.articulosRepo = ArticulosRepoSingleton.getInstance();
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-    	 VentasRepoSingleton ventasRepo = VentasRepoSingleton.getInstance();
+        
+        /*if (ventasRepo.getAll().isEmpty()) {
+            List<Articulo> articulosVenta1 = Arrays.asList(
+                new Articulo(101, "Articulo A", "Descripción A", 50.0, 2)
+            );
 
-    	    if (ventasRepo.getAll().isEmpty()) {
-    	        List<Articulo> articulosVenta1 = Arrays.asList(
-    	            new Articulo(101, "Articulo A", "Descripción A", 50.0, 2)
-    	        );
+            List<Articulo> articulosVenta2 = Arrays.asList(
+                new Articulo(102, "Articulo B", "Descripción B", 75.0, 1)
+            );
 
-    	        List<Articulo> articulosVenta2 = Arrays.asList(
-    	            new Articulo(102, "Articulo B", "Descripción B", 75.0, 1)
-    	        );
+            ventasRepo.insert(new Venta(1, "cliente1", 100.0, articulosVenta1, LocalDate.now()));
+            ventasRepo.insert(new Venta(2, "cliente2", 75.0, articulosVenta2, LocalDate.now()));
+        }*/
 
-    	        ventasRepo.insert(new Venta(1, "cliente1", 100.0, articulosVenta1, LocalDate.now()));
-    	        ventasRepo.insert(new Venta(2, "cliente2", 75.0, articulosVenta2, LocalDate.now()));
-    	    }
-
-        String accion = Optional.ofNullable(request.getParameter("accion")).orElse("Historial");
+        String accion = Optional.ofNullable(request.getParameter("accion")).orElse("historial"); 
 
         switch (accion) {
-	        case "Historial" -> getHistorial(request, response);
-	        case "DetalleVenta" -> getDetalle(request, response);
-			default -> response.sendError(404);
+            case "historial" -> getHistorial(request, response); 
+            case "detalleVenta" -> getDetalle(request, response);
+            default -> response.sendError(HttpServletResponse.SC_NOT_FOUND);
         }
     }
 
@@ -64,7 +65,7 @@ public class VentasController extends HttpServlet {
 
     private void getDetalle(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String sId = request.getParameter("id");
+        String sId = request.getParameter("id"); 
         try {
             int id = Integer.parseInt(sId);
             Venta venta = ventasRepo.findById(id);
@@ -75,7 +76,7 @@ public class VentasController extends HttpServlet {
             request.setAttribute("venta", venta);
             request.getRequestDispatcher("/views/Ventas/DetalleVenta.jsp").forward(request, response);
         } catch (NumberFormatException e) {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "ID de venta inv�lido");
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "ID de venta inválido");
         }
     }
 
@@ -88,9 +89,9 @@ public class VentasController extends HttpServlet {
         }
 
         switch (accion) {
-	        case "insert" -> postInsert(request, response);
-	        case "delete" -> postDelete(request, response);
-			default -> response.sendError(404);
+            case "insert" -> postInsert(request, response);
+            case "delete" -> postDelete(request, response);
+            default -> response.sendError(HttpServletResponse.SC_NOT_FOUND);
         }
     }
 
@@ -114,18 +115,18 @@ public class VentasController extends HttpServlet {
             }
 
             if (articulosSeleccionados.isEmpty()) {
-                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "No se encontraron artículos validos");
+                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "No se encontraron artículos válidos");
                 return;
             }
 
             double total = articulosSeleccionados.stream().mapToDouble(Articulo::getPrecio).sum();
             LocalDate fechaVenta = LocalDate.now();
-            Venta nuevaVenta = new Venta(0, cliente, total, articulosSeleccionados, fechaVenta);
+            Venta nuevaVenta = new Venta(ventasRepo.getAll().size() + 1, cliente, total, articulosSeleccionados, fechaVenta);
             
             ventasRepo.insert(nuevaVenta);
-            response.sendRedirect("VentasController?accion=Historial");
+            response.sendRedirect("VentasController?accion=historial");
         } catch (NumberFormatException e) {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Codigo de artículo invalido");
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Código de artículo inválido");
         }
     }
 
@@ -136,7 +137,7 @@ public class VentasController extends HttpServlet {
             ventasRepo.delete(id);
             response.sendRedirect("VentasController?accion=historial");
         } catch (NumberFormatException e) {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "ID inv�lido para eliminaci�n");
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "ID inválido para eliminación");
         }
     }
 }

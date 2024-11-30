@@ -13,18 +13,19 @@ public class VentasRepoSingleton implements VentasRepo {
 
     private static VentasRepoSingleton instancia;
     private List<Venta> ventas;
-
+    
     private VentasRepoSingleton() {
-        ventas.add(new Venta(1, "cliente1", 150.0, Arrays.asList(
+        ventas = new ArrayList<>();
+
+        /*ventas.add(new Venta(1, "cliente1", 150.0, Arrays.asList(
             new Articulo(101, "Articulo A", "Descripción A", 50.0, 2)
         ), LocalDate.now()));
-        
+
         ventas.add(new Venta(2, "cliente2", 300.0, Arrays.asList(
             new Articulo(102, "Articulo B", "Descripción B", 75.0, 4)
-        ), LocalDate.now()));
+        ), LocalDate.now()));*/
     }
 
-   
     public static synchronized VentasRepoSingleton getInstance() {
         if (instancia == null) {
             instancia = new VentasRepoSingleton();
@@ -34,7 +35,7 @@ public class VentasRepoSingleton implements VentasRepo {
 
     @Override
     public List<Venta> getAll() {
-        return ventas != null ? new ArrayList<>(ventas) : new ArrayList<>();
+        return new ArrayList<>(ventas);
     }
 
     @Override
@@ -54,5 +55,4 @@ public class VentasRepoSingleton implements VentasRepo {
     public synchronized void delete(int id) {
         ventas.removeIf(venta -> venta.getIdVenta() == id);
     }
-
 }

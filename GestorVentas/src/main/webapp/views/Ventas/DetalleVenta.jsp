@@ -12,7 +12,7 @@
     <p><strong>ID Venta:</strong> ${venta.idVenta}</p>
     <p><strong>Usuario:</strong> ${venta.nombreUsuario}</p>
     <p><strong>Total:</strong> ${venta.total}</p>
-    <p><strong>Fecha de Venta:</strong> ${venta.fechaVenta}</p> <!-- Mover la fecha aquí -->
+    <p><strong>Fecha de Venta:</strong> ${venta.fechaVenta}</p>
 
     <h2>Artículos Comprados</h2>
     <c:if test="${empty venta.articulos}">
@@ -34,7 +34,7 @@
                     <tr>
                         <td>${articulo.codigo}</td>
                         <td>${articulo.nombre}</td>
-                        <td>${articulo.stock}</td> <!-- Cambiado de cantidad a stock -->
+                        <td>${articulo.stock}</td> 
                         <td>${articulo.precio}</td>
                     </tr>
                 </c:forEach>

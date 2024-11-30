@@ -25,13 +25,13 @@
             </thead>
             <tbody>
                 <c:forEach var="venta" items="${listaVentas}">
-                    <tr>
-                        <td>${venta.idVenta}</td>
-                        <td>${venta.nombreUsuario}</td>
-                        <td>${venta.total}</td>
-                        <td><a href="VentasController?accion=DetalleVenta&id=${venta.idVenta}">Ver Detalles</a></td>
-                    </tr>
-                </c:forEach>
+				    <tr>
+				        <td>${venta.idVenta}</td>
+				        <td>${venta.nombreUsuario}</td>
+				        <td>${venta.total}</td>
+				        <td><a href="VentasController?accion=DetalleVenta&id=${venta.idVenta}">Ver Detalles</a></td>
+				    </tr>
+				</c:forEach>
             </tbody>
         </table>
     </c:if>
