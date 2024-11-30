@@ -12,11 +12,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import models.Articulo;
-import models.Carrito;
 import repositories.ArticulosRepoSingleton;
 import repositories.CarritosRepoSingleton;
+import repositories.VentasRepoSingleton;
 import repositories.interfaces.ArticulosRepo;
 import repositories.interfaces.CarritosRepo;
+import repositories.interfaces.VentasRepo;
 
 /**
  * Servlet implementation class CarritosController
@@ -31,11 +32,13 @@ public class CarritosController extends HttpServlet {
 	
 	private CarritosRepo carritosRepo;
 	private ArticulosRepo articulosRepo;
+	private VentasRepo ventasRepo;
 	
     public CarritosController() {
         super();
         this.carritosRepo = CarritosRepoSingleton.getInstance();
         this.articulosRepo = ArticulosRepoSingleton.getInstance();
+        this.ventasRepo = VentasRepoSingleton.getInstance();
     }
 
 	/**
@@ -88,7 +91,7 @@ public class CarritosController extends HttpServlet {
 		request.getRequestDispatcher("/views/carritos/index.jsp").forward(request, response);
 	}
 
-	//Muestra los detalles del articulo en el carrito
+	//Muestra los detalles de un articulo particular
 	private void getShow(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String sId = request.getParameter("idUsuario");
 		String cId = request.getParameter("codigo");
@@ -199,7 +202,7 @@ public class CarritosController extends HttpServlet {
 		
 	}
 
-	//Funcion para actualizar la cantidad de articulos
+	//Funcion para actualizar la cantidad de articulos que se quiere comprar
 	private void postUpdate(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		int idUsuario = Integer.parseInt(request.getParameter("idUsuario"));
 		int codigo = Integer.parseInt(request.getParameter("codigo"));

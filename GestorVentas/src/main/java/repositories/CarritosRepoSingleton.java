@@ -5,6 +5,7 @@ import java.util.List;
 
 import models.Articulo;
 import models.Carrito;
+import models.Venta;
 import repositories.interfaces.CarritosRepo;
 
 public class CarritosRepoSingleton implements CarritosRepo{
@@ -40,6 +41,7 @@ private static CarritosRepoSingleton singleton;
 	@Override
 	public boolean comprarCarrito(int idUsuario) {
 		return this.listaCarritos.removeIf(a -> a.getIdUsuario() == idUsuario);
+		
 	}
 
 	@Override
