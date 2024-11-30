@@ -1,6 +1,7 @@
 package controllers;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -12,11 +13,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import models.Articulo;
+import models.Carrito;
+import models.Usuario;
+import models.Venta;
 import repositories.ArticulosRepoSingleton;
 import repositories.CarritosRepoSingleton;
+import repositories.UsuariosRepoSingleton;
 import repositories.VentasRepoSingleton;
 import repositories.interfaces.ArticulosRepo;
 import repositories.interfaces.CarritosRepo;
+import repositories.interfaces.UsuariosRepo;
 import repositories.interfaces.VentasRepo;
 
 /**
@@ -33,12 +39,14 @@ public class CarritosController extends HttpServlet {
 	private CarritosRepo carritosRepo;
 	private ArticulosRepo articulosRepo;
 	private VentasRepo ventasRepo;
+	private UsuariosRepo usuarioRepo;
 	
     public CarritosController() {
         super();
         this.carritosRepo = CarritosRepoSingleton.getInstance();
         this.articulosRepo = ArticulosRepoSingleton.getInstance();
         this.ventasRepo = VentasRepoSingleton.getInstance();
+        this.usuarioRepo = UsuariosRepoSingleton.getInstance();
     }
 
 	/**
@@ -159,13 +167,28 @@ public class CarritosController extends HttpServlet {
 		}
 	}
 
-	//funcion para confirmar la compra
+	//funcion para confirmar la compra y registrar la venta
 	private void PostComprar(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		String sId = request.getParameter("idUsuario");
 	
 		int idUsuario = Integer.parseInt(sId);
-
-		carritosRepo.comprarCarrito(idUsuario);
+		
+		Usuario usuario = usuarioRepo.findById(idUsuario);
+		Carrito carrito = carritosRepo.findByIdCarrito(idUsuario);
+		
+		if(usuario != null) {
+			if(!carrito.getArticulos().isEmpty()) {	
+				Venta venta = new Venta(idUsuario, usuario.getNombreUsuario(), carrito.precioTotal(), carrito.getArticulos(),LocalDate.now());
+				ventasRepo.insert(venta);
+				carritosRepo.comprarCarrito(idUsuario);
+			}else {
+				response.sendRedirect("Carritos");
+				return;
+			}
+		}else {
+			response.sendError(404,"No se encontro al usuario");
+		}
+		
 		
 		response.sendRedirect("Carritos");
 	}

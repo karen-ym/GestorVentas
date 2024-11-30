@@ -5,7 +5,6 @@ import java.util.List;
 
 import models.Articulo;
 import models.Carrito;
-import models.Venta;
 import repositories.interfaces.CarritosRepo;
 
 public class CarritosRepoSingleton implements CarritosRepo{
