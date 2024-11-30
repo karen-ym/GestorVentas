@@ -58,7 +58,6 @@ public class CarritosController extends HttpServlet {
 		accion = Optional.ofNullable(accion).orElse("carrito");
 		
 		switch (accion) {
-		case "index" -> getIndex(request,response);
 		case "add" -> getAdd(request,response);
 		case "carrito" -> getCarrito(request,response);
 		case "show" -> getShow(request,response);
@@ -86,18 +85,6 @@ public class CarritosController extends HttpServlet {
 		request.setAttribute("idUsuario", idUsuario);
 		
 		request.getRequestDispatcher("/views/carritos/add.jsp").forward(request, response);
-	}
-
-	//Funcion que muestra una lista de articulos para comprar(de prueba)
-	private void getIndex(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String sId = request.getParameter("IdUsuario");
-		int idUsuario = Integer.parseInt(sId);
-		
-		List<Articulo> articulos = articulosRepo.getAll();
-		request.setAttribute("idUsuario", idUsuario);
-		request.setAttribute("articulos",articulos );
-		
-		request.getRequestDispatcher("/views/carritos/index.jsp").forward(request, response);
 	}
 
 	//Muestra los detalles de un articulo particular

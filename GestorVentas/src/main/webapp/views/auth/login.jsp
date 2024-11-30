@@ -7,26 +7,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body class="bg-light">
+<body>
 
-    <div class="container d-flex justify-content-center align-items-center vh-100">
-        <div class="card p-4 shadow-sm" style="max-width: 400px; width: 100%;">
+    <div>
+        <div>
 
-            <h1 class="text-center mb-4">Iniciar Sesión</h1>
+            <h1>Iniciar Sesión</h1>
 
             <c:if test="${not empty error}">
-                <div class="alert alert-danger" role="alert">
+                <div>
                     ${error}
                 </div>
             </c:if>
 
             <form action="auth" method="post">
 
-                <div class="form-group">
+                <div>
                     <label for="nombreUsuario">Nombre de Usuario</label>
-                    <input type="text" class="form-control" id="nombreUsuario" name="nombreUsuario" required>
+                    <input type="text" id="nombreUsuario" name="nombreUsuario" required>
                 </div>
 
                 <div class="form-group">
@@ -34,17 +33,15 @@
                     <input type="password" class="form-control" id="contrasenia" name="contrasenia" required>
                 </div>
 
-                <button type="submit" class="btn btn-primary btn-block">Iniciar Sesión</button>
+                <button type="submit">Iniciar Sesión</button>
             </form>
 
-            <div class="text-center mt-4">
+            <div>
                 <p>ADMIN: usuario/clave ("admin")</p>
                 <p>CLIENTE: usuario/clave ("cliente")</p>
             </div>
         </div>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
