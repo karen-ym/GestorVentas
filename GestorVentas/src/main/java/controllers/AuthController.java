@@ -36,8 +36,14 @@ public class AuthController extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+    	
+        String accion = request.getParameter("accion");
 
-        request.getRequestDispatcher("/views/auth/login.jsp").forward(request, response);
+    	if (accion != null && accion.equals("logout")) {
+            cerrarSesion(request, response);
+        } else {
+            request.getRequestDispatcher("/views/auth/login.jsp").forward(request, response);
+        }
     }
 
     
@@ -63,7 +69,7 @@ public class AuthController extends HttpServlet {
         }
         
         Usuario usuario = usuariosRepo.findByNombreUsuario(nombreUsuario);
-
+        
         // Iniciar sesión:
         if (usuario != null && usuario.getContrasenia().equals(contraseniaHasheada)) { 
             HttpSession session = request.getSession();
@@ -99,6 +105,14 @@ public class AuthController extends HttpServlet {
             return (Usuario) session.getAttribute("usuario"); 
         }
         return null;
+    }
+    
+    private void cerrarSesion(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            session.invalidate(); 
+        }
+        response.sendRedirect(request.getContextPath() + "/auth");  
     }
 
 }

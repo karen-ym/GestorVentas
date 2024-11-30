@@ -9,6 +9,7 @@
 <body>
 <div class="container mt-5">
     <h1 class="text-center mb-4">BIENVENIDO ADMIN</h1>
+    <a href="${pageContext.request.contextPath}/auth?accion=logout">Cerrar Sesión</a>
 
     <!-- Sección de Usuarios -->
     <h2 class="mb-3">Gestión de Usuarios</h2>
