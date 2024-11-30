@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import models.Usuario;
 import repositories.UsuariosRepoSingleton;
 import repositories.interfaces.UsuariosRepo;
+import utils.Encryptor;
 
 @WebServlet("/usuarios")
 public class UsuariosController extends HttpServlet {
@@ -81,10 +82,12 @@ public class UsuariosController extends HttpServlet {
 		switch (accion) {
 		case "insert" -> postInsert(request, response);
 		case "delete" -> postDelete(request, response);
+		case "registrar" -> postInsert(request, response); // agrego caso para mandarlo al login -k
 		default -> response.sendError(404, "No existe accion: "+accion);
 		}
 		
 	}
+	
 
 	private void postDelete(HttpServletRequest request, HttpServletResponse response) {
 		String sId = request.getParameter("id");
@@ -98,17 +101,18 @@ public class UsuariosController extends HttpServlet {
 		String nombreUsuario = request.getParameter("nombreUsuario");
 		
 		String contrasenia = request.getParameter("contrasenia");
+		String contraseniaEncriptada = Encryptor.encryptMD5(contrasenia);
 		
 		String sSaldoActual = request.getParameter("saldoActual");
 		double saldo =Double.parseDouble(sSaldoActual);
 		
 		String tipo = request.getParameter("tipo");
 		
-		Usuario usu = new Usuario(nombreUsuario, contrasenia, tipo, saldo);
+		Usuario usu = new Usuario(nombreUsuario, contraseniaEncriptada, tipo, saldo); 
 	
 		usuariosRepo.insert(usu);
 		
-		response.sendRedirect("auth");
+		response.sendRedirect(request.getContextPath() + "/auth"); // cambio
 
 }
 }

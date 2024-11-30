@@ -10,7 +10,7 @@
 <body>
 		<h1>Alta</h1>
 			
-			<form action="usuarios" method="post">
+			<form action="usuarios?accion=registrar" method="post">
 			<input type="hidden" value="insert" name="accion" />
 				<p>
 					Usuario: <input value="" name="nombreUsuario" />

@@ -36,9 +36,11 @@
                 <button type="submit">Iniciar Sesión</button>
             </form>
 
-            <div>
-                <p>ADMIN: usuario/clave ("admin")</p>
-                <p>CLIENTE: usuario/clave ("cliente")</p>
+			<a href="${pageContext.request.contextPath}/usuarios?accion=create">Registrarse</a> <p> <p>
+			<div>
+            	<p>Usuarios de prueba disponibles:</p>
+                <p>ADMIN -> usuario/clave: admin</p>
+                <p>CLIENTE -> usuario/clave: cliente</p>
             </div>
         </div>
     </div>
