@@ -7,43 +7,41 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
+    <link rel="stylesheet" href="css/estiloIndex.css">
 </head>
 <body>
+<div class="login-container">
+    <div class="login-box">
+        <h1 class="text-center">Iniciar Sesión</h1>
 
-    <div>
-        <div>
-
-            <h1>Iniciar Sesión</h1>
-
-            <c:if test="${not empty error}">
-                <div>
-                    ${error}
-                </div>
-            </c:if>
-
-            <form action="auth" method="post">
-
-                <div>
-                    <label for="nombreUsuario">Nombre de Usuario</label>
-                    <input type="text" id="nombreUsuario" name="nombreUsuario" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="contrasenia">Contraseña</label>
-                    <input type="password" class="form-control" id="contrasenia" name="contrasenia" required>
-                </div>
-
-                <button type="submit">Iniciar Sesión</button>
-            </form>
-
-			<a href="${pageContext.request.contextPath}/usuarios?accion=create">Registrarse</a> <p> <p>
-			<div>
-            	<p>Usuarios de prueba disponibles:</p>
-                <p>ADMIN -> usuario/clave: admin</p>
-                <p>CLIENTE -> usuario/clave: cliente</p>
+        <c:if test="${not empty error}">
+            <div class="error-box">
+                ${error}
             </div>
+        </c:if>
+
+        <form action="auth" method="post">
+            <div class="form-group">
+                <label for="nombreUsuario" class="form-label">Nombre de Usuario:</label>
+                <input type="text" id="nombreUsuario" name="nombreUsuario" class="form-control" required>
+            </div>
+
+            <div class="form-group">
+                <label for="contrasenia" class="form-label">Contraseña:</label>
+                <input type="password" id="contrasenia" name="contrasenia" class="form-control" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Iniciar Sesión</button>
+        </form>
+
+        <a href="${pageContext.request.contextPath}/usuarios?accion=create" class="btn-link">Registrarse</a>
+
+        <div class="test-users">
+            <p><strong>Usuarios de prueba disponibles:</strong></p>
+            <p>ADMIN -> usuario/clave: <em>admin</em></p>
+            <p>CLIENTE -> usuario/clave: <em>cliente</em></p>
         </div>
     </div>
-
+</div>
 </body>
 </html>
