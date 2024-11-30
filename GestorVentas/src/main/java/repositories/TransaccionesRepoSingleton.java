@@ -27,6 +27,14 @@ public class TransaccionesRepoSingleton implements TransaccionesRepo{
         }
         return singleton;
     }
+
+	public Transaccion findById(int id) {
+    	return this.listaTransacciones.stream()
+    			.filter((t)-> t.getId() == id )
+    			.findAny()
+    			.orElse(null);
+    }
+    
     
     // Ver todas las transacciones
     @Override
