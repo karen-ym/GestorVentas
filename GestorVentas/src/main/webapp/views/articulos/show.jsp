@@ -5,24 +5,35 @@
 <head>
 <meta charset="UTF-8">
 <title>Detalles del Artículo</title>
+<link rel="stylesheet" href="css/estiloAdmin.css"> 
 </head>
 <body>
-	<h1>Artículo</h1>
-	<p>
-		Código: <c:out value="${articulo.codigo}" />
-	</p>
-	<p>
-		Nombre: <c:out value="${articulo.nombre}" />
-	</p>
-	<p>
-		Descripción: <c:out value="${articulo.descripcion}" />
-	</p>
-	<p>
-		Precio: <c:out value="${articulo.precio}" />
-	</p>
-	<p>
-		Stock: <c:out value="${articulo.stock}" />
-	</p>
-
+	<div class="container mt-5">
+    <h1 class="text-center mb-4">Detalles del Artículo</h1>
+    <table class="table table-striped table-bordered">
+        <tbody>
+            <tr>
+                <th>Código</th>
+                <td><c:out value="${articulo.codigo}" /></td>
+            </tr>
+            <tr>
+                <th>Nombre</th>
+                <td><c:out value="${articulo.nombre}" /></td>
+            </tr>
+            <tr>
+                <th>Descripción</th>
+                <td><c:out value="${articulo.descripcion}" /></td>
+            </tr>
+            <tr>
+                <th>Precio</th>
+                <td>$<c:out value="${articulo.precio}" /></td>
+            </tr>
+            <tr>
+                <th>Stock</th>
+                <td><c:out value="${articulo.stock}" /></td>
+            </tr>
+        </tbody>
+    </table>
+	<a href="${pageContext.request.contextPath}/articulos?accion=volverAIndexAdmin" class="btn btn-link mt-3">Volver a la lista</a></div>
 </body>
 </html>

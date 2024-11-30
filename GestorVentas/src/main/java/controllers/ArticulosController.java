@@ -11,8 +11,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import models.Articulo;
+import models.Usuario;
+import models.Venta;
 import repositories.ArticulosRepoSingleton;
+import repositories.UsuariosRepoSingleton;
+import repositories.VentasRepoSingleton;
 import repositories.interfaces.ArticulosRepo;
+import repositories.interfaces.UsuariosRepo;
+import repositories.interfaces.VentasRepo;
 
 //@WebServlet("/ArticulosController")
 @WebServlet("/articulos") // acá el webservlet apunta a la url que vamos a utilizar -k
@@ -20,10 +26,14 @@ public class ArticulosController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
 	private ArticulosRepo articulosRepo;
+	private UsuariosRepo usuariosRepo;
+	private VentasRepo ventasRepo;
 
 	// Constructor para inicializar el repositorio, acá se usa el singleton -K
     public ArticulosController() {
         this.articulosRepo = ArticulosRepoSingleton.getInstance();
+        this.usuariosRepo = UsuariosRepoSingleton.getInstance();
+        this.ventasRepo = VentasRepoSingleton.getInstance();
     }
 
     
@@ -33,21 +43,31 @@ public class ArticulosController extends HttpServlet {
         accion = Optional.ofNullable(accion).orElse("index");
 
         switch (accion) {
-            case "index":
-                getIndex(request, response);
-                break;
-            case "show":
-                getShow(request, response);
-                break;
-            case "edit": 
-                getEdit(request, response);
-                break;
-            case "create":
-                getCreate(request, response);
-                break;
-            default:
-                response.sendError(404);
-        }
+        case "index":
+            getIndex(request, response);
+            break;
+        case "show":
+            getShow(request, response);
+            break;
+        case "edit": 
+            getEdit(request, response);
+            break;
+        case "create":
+            getCreate(request, response);
+            break;
+        case "volverAIndexAdmin": 
+        	List<Articulo> listaArticulos = articulosRepo.getAll();
+            request.setAttribute("listaArticulos", listaArticulos);
+            List<Usuario> listaUsuarios = usuariosRepo.getAll(); 
+            request.setAttribute("listarda", listaUsuarios); 
+            List<Venta> listaVentas = ventasRepo.getAll();    
+            request.setAttribute("listaVentas", listaVentas);  
+
+            request.getRequestDispatcher("/views/home/adminIndex.jsp").forward(request, response); 
+            break;
+        default:
+            response.sendError(404);
+    }
     }
     
     
@@ -152,7 +172,7 @@ public class ArticulosController extends HttpServlet {
             return; 
         }
 
-        response.sendRedirect("articulos");
+        response.sendRedirect(request.getContextPath() + "/articulos?accion=volverAIndexAdmin");
     }
 
     
@@ -171,7 +191,7 @@ public class ArticulosController extends HttpServlet {
 
         articulosRepo.insert(articulo);
 
-        response.sendRedirect("articulos");
+        response.sendRedirect(request.getContextPath() + "/articulos?accion=volverAIndexAdmin");
     }
 
 }
