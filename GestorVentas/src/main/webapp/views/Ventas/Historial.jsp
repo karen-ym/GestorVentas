@@ -4,20 +4,19 @@
 <html>
 <head>
     <title>Historial de Ventas</title>
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-    <div class="container mt-5">
-        <h1 class="text-center mb-4">Historial de Ventas</h1>
+    <div>
+        <h1>Historial de Ventas</h1>
         <hr/>
 
         <c:if test="${empty listaVentas}">
-            <p class="text-danger text-center">No hay ventas registradas.</p>
+            <p>No hay ventas registradas.</p>
         </c:if>
 
         <c:if test="${not empty listaVentas}">
-            <table class="table table-striped table-bordered table-hover mt-3">
-                <thead class="thead-dark">
+            <table>
+                <thead>
                     <tr>
                         <th>ID Venta</th>
                         <th>Usuario</th>
@@ -32,7 +31,7 @@
                             <td>${venta.nombreUsuario}</td>
                             <td>${venta.total}</td>
                             <td>
-                                <a href="VentasController?accion=detalleVenta&id=${venta.idVenta}" class="btn btn-info btn-sm">
+                                <a href="VentasController?accion=detalleVenta&id=${venta.idVenta}">
                                     Ver Detalles
                                 </a>
                             </td>
@@ -43,7 +42,5 @@
         </c:if>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

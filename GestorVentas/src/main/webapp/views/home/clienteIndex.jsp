@@ -5,13 +5,12 @@
 <head>
     <meta charset="UTF-8">
     <title>Bienvenido Cliente</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body class="container mt-5">
     <h1 class="mb-4">Bienvenido, <c:out value="${usuario.nombreUsuario}" /></h1>
     
-    <div class="card mb-4">
-        <div class="card-body">
+    <div class="">
+        <div class="">
             <p><strong>Nombre de usuario:</strong> <c:out value="${usuario.nombreUsuario}" /></p>
             <p><strong>Saldo:</strong> $<c:out value="${usuario.saldoActual}" /></p>
             <p><strong>Tipo de usuario:</strong> <c:out value="${usuario.tipo}" /></p>
@@ -24,9 +23,9 @@
     </div>
 
     <!-- Sección de artículos -->
-    <h2 class="mb-3">Artículos Disponibles</h2>
-    <table class="table table-striped">
-        <thead class="thead-dark">
+    <h2 class="">Artículos Disponibles</h2>
+    <table border="1">
+        <thead>
             <tr>
                 <th>Código</th>
                 <th>Nombre</th>
@@ -44,19 +43,16 @@
                     <td><c:out value="${articulo.descripcion}" /></td>
                     <td>$<c:out value="${articulo.precio}" /></td>
                     <td><c:out value="${articulo.stock}"/></td>
-                    <td>
-                        <form action="carrito" method="post">
-                            <input type="hidden" name="codigo" value="${articulo.codigo}">
-                            <button type="submit" class="btn btn-primary btn-sm">Agregar al carrito</button>
-                        </form>
+                    <td> 
+						<a href="Carritos?accion=add&idUsuario=${idUsuario}&codigo=${articulo.codigo}">Comprar</a>
                     </td>
                 </tr>
             </c:forEach>
         </tbody>
     </table>
 
-    <div class="text-right mt-4">
-        <a href="carrito" class="btn btn-success">Ver Carrito</a>
+    <div class="">
+        <a href="Carritos?accion=carrito&idUsuario=${idUsuario}">Ver Carrito</a>
     </div>
 </body>
 </html>
