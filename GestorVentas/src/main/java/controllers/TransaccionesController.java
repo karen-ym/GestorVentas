@@ -55,7 +55,14 @@ public class TransaccionesController extends HttpServlet {
 
 	
 	private void getShow(HttpServletRequest request, HttpServletResponse response) {
-		
+	int idTransaccion = Integer.parseInt(request.getParameter("idTransaccion"));
+        
+        Transaccion transaccion = transaccionesRepo.findById(idTransaccion);
+        
+        request.setAttribute("transaccion", transaccion);
+        
+ 
+        request.getRequestDispatcher("/views/transacciones/show.jsp").forward(request, response);
 	}
 
 	//Manda los datos de Registro de las transacciones (realizadas, recibidas) de un usuario particular.
