@@ -16,7 +16,6 @@
 
             <h1 class="text-center mb-4">Iniciar Sesión</h1>
 
-            <%-- Mostrar mensaje de error si existe --%>
             <c:if test="${not empty error}">
                 <div class="alert alert-danger" role="alert">
                     ${error}
