@@ -166,15 +166,16 @@ public class CarritosController extends HttpServlet {
 		String sId = request.getParameter("idUsuario");
 	
 		int idUsuario = Integer.parseInt(sId);
-		
 		Usuario usuario = usuarioRepo.findById(idUsuario);
 		Carrito carrito = carritosRepo.findByIdCarrito(idUsuario);
+		
 		
 		if(usuario != null) {
 			if(!carrito.getArticulos().isEmpty()) {	
 				Venta venta = new Venta(idUsuario, usuario.getNombreUsuario(), carrito.precioTotal(), carrito.getArticulos(),LocalDate.now());
 				ventasRepo.insert(venta);
 				carritosRepo.comprarCarrito(idUsuario);
+				articulosRepo.descontarStock(carrito.getArticulos());
 				if(usuario.getSaldoActual() > carrito.precioTotal()) {
 					usuario.setSaldoActual(usuario.getSaldoActual() - carrito.precioTotal());
 				}else {
@@ -195,6 +196,7 @@ public class CarritosController extends HttpServlet {
 		request.setAttribute("listaArticulos", listaArticulos);
 		request.getRequestDispatcher("/views/home/clienteIndex.jsp").forward(request, response);
 	}
+
 
 	// Funcion para borrar un articulo
 	private void PostDelete(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -219,14 +221,22 @@ public class CarritosController extends HttpServlet {
 	    String descripcion = request.getParameter("descripcion");
 	    double precio = Double.parseDouble(request.getParameter("precio"));
 	    int cantidad = Integer.parseInt(request.getParameter("cantidad"));
-		
-		Articulo articulo = new Articulo(codigo, nombre, descripcion, precio, cantidad);
-		
-		carritosRepo.add(idUsuario, articulo);
-		response.sendRedirect("Carritos");
+	   
+	    Articulo articulo = articulosRepo.findByCodigo(codigo);
+	    
+	    if(cantidad < articulo.getStock()) {
+	    	Articulo articuloAInsertar = new Articulo(codigo, nombre, descripcion, precio, cantidad);
+	    	carritosRepo.add(idUsuario, articuloAInsertar);
+	    	response.sendRedirect("Carritos");
+	    	return;
+	    }else {
+	    	 request.setAttribute("error", "No hay stock suficiente.");
+	    	 response.sendRedirect("Carritos?accion=add&codigo=" + codigo+"&idUsuario="+idUsuario);
+	    }
 		
 		
 	}
+
 
 	//Funcion para actualizar la cantidad de articulos que se quiere comprar
 	private void postUpdate(HttpServletRequest request, HttpServletResponse response) throws IOException {

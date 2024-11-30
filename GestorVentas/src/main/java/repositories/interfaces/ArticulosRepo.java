@@ -14,4 +14,5 @@ public interface ArticulosRepo {
 	public void insert(Articulo articulo);
 	public void update(Articulo articulo);
 	public void delete(int codigo);
+	public void descontarStock(List<Articulo> carritoArticulos);
 }
