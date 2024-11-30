@@ -147,7 +147,7 @@ public class ArticulosController extends HttpServlet {
     private void postDelete(HttpServletRequest request, HttpServletResponse response) throws IOException {
         int codigo = Integer.parseInt(request.getParameter("codigo"));
         articulosRepo.delete(codigo);
-        response.sendRedirect("articulos");
+        response.sendRedirect(request.getContextPath() + "/articulos?accion=volverAIndexAdmin");
     }
 
     
