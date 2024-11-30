@@ -19,6 +19,7 @@ import repositories.VentasRepoSingleton;
 import repositories.interfaces.ArticulosRepo;
 import repositories.interfaces.UsuariosRepo;
 import repositories.interfaces.VentasRepo;
+import utils.Encryptor;
 
 @WebServlet("/auth")
 public class AuthController extends HttpServlet {
@@ -53,14 +54,22 @@ public class AuthController extends HttpServlet {
             return;
         }
         
+        String contraseniaHasheada = Encryptor.encryptMD5(contrasenia);
+        
+        if (contraseniaHasheada == null) {
+            request.setAttribute("error", "Error interno del servidor.");
+            request.getRequestDispatcher("/views/auth/login.jsp").forward(request, response);
+            return; 
+        }
+        
         Usuario usuario = usuariosRepo.findByNombreUsuario(nombreUsuario);
 
         // Iniciar sesión:
-        if (usuario != null && usuario.getContrasenia().equals(contrasenia)) { 
+        if (usuario != null && usuario.getContrasenia().equals(contraseniaHasheada)) { 
             HttpSession session = request.getSession();
             session.setAttribute("usuario", usuario);
 
-            // Redirigir al usuario según rol (REVISAR DESPUÉS)
+            // Redirigir al usuario según rol 
             if (usuario.getTipo().equals("empleado")) {
             	List<Usuario> listaUsuario = usuariosRepo.getAll();
             	request.setAttribute("listarda", listaUsuario);

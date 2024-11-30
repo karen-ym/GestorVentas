@@ -5,6 +5,7 @@ import java.util.List;
 
 import models.Usuario;
 import repositories.interfaces.UsuariosRepo;
+import utils.Encryptor;
 
 public class UsuariosRepoSingleton implements UsuariosRepo{
 	
@@ -23,8 +24,8 @@ public class UsuariosRepoSingleton implements UsuariosRepo{
 		this.listaUsuarios = new ArrayList<Usuario>();
 		
 		// Creo usuarios hardcodeados -k
-		Usuario admin = new Usuario("admin", "admin", "empleado", 0);
-        Usuario cliente = new Usuario("cliente", "cliente", "cliente", 1500);
+		Usuario admin = new Usuario("admin", Encryptor.encryptMD5("admin"), "empleado", 0);
+        Usuario cliente = new Usuario("cliente", Encryptor.encryptMD5("cliente"), "cliente", 1500);
         
         admin.setId(1);
         cliente.setId(2);
