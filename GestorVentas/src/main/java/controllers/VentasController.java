@@ -12,12 +12,19 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import models.Articulo;
+import models.Transaccion;
+import models.Usuario;
 import models.Venta;
 import repositories.interfaces.ArticulosRepo;
+import repositories.interfaces.TransaccionesRepo;
+import repositories.interfaces.UsuariosRepo;
 import repositories.interfaces.VentasRepo;
 import repositories.ArticulosRepoSingleton;
+import repositories.TransaccionesRepoSingleton;
+import repositories.UsuariosRepoSingleton;
 import repositories.VentasRepoSingleton;
 
 @WebServlet("/VentasController")
@@ -25,10 +32,14 @@ public class VentasController extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private VentasRepo ventasRepo;
     private ArticulosRepo articulosRepo;
+    private TransaccionesRepo transaccionesRepo;
+    private UsuariosRepo usuariosRepo; 
     
     public VentasController() {
         this.ventasRepo = VentasRepoSingleton.getInstance();
         this.articulosRepo = ArticulosRepoSingleton.getInstance();
+        this.transaccionesRepo = TransaccionesRepoSingleton.getInstance();
+        this.usuariosRepo = UsuariosRepoSingleton.getInstance();
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -120,6 +131,34 @@ public class VentasController extends HttpServlet {
             }
 
             double total = articulosSeleccionados.stream().mapToDouble(Articulo::getPrecio).sum();
+            
+            // Modulo saldo --- inicio
+            HttpSession session = request.getSession(false);
+            
+            Usuario usuario = (Usuario) session.getAttribute("usuario");
+            
+            if (usuario == null || session == null) {
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Debes iniciar sesión para realizar una compra.");
+                return; 
+            }
+
+            if (usuario.getSaldoActual() < total) {
+                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Saldo insuficiente.");
+                return;
+            }
+            
+            Usuario admin = usuariosRepo.findByNombreUsuario("admin"); // "admin" sería la empresa en este caso, recibe la plata
+            
+            if (admin == null) {
+                response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error: no se pudo encontrar al administrador.");
+                return;
+            }
+            
+            Transaccion transaccion = new Transaccion(0, usuario.getId(), admin.getId(), total);
+            transaccionesRepo.registrarTransaccion(transaccion);
+            
+            // Modulo saldo --- fin
+            
             LocalDate fechaVenta = LocalDate.now();
             Venta nuevaVenta = new Venta(ventasRepo.getAll().size() + 1, cliente, total, articulosSeleccionados, fechaVenta);
             

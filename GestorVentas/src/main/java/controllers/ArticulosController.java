@@ -39,7 +39,7 @@ public class ArticulosController extends HttpServlet {
             case "show":
                 getShow(request, response);
                 break;
-            case "edit":  // Verifica que este case sea correcto
+            case "edit": 
                 getEdit(request, response);
                 break;
             case "create":
