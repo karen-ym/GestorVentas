@@ -5,6 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Panel de Administración</title>
+    <link rel="stylesheet" href="css/estiloAdmin.css"> 
 </head>
 <body>
 <div class="container mt-5">
