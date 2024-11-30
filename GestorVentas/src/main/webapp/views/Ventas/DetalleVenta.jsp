@@ -47,7 +47,7 @@
         </c:if>
 
         <div>
-            <a href="VentasController?accion=historial">Volver al Historial</a>
+    		<a href="${pageContext.request.contextPath}/VentasController?accion=volverAdmin">Volver a la lista</a>
         </div>
     </div>
 </body>

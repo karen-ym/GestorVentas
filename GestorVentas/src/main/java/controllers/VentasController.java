@@ -48,6 +48,7 @@ public class VentasController extends HttpServlet {
         switch (accion) {
             case "historial" -> getHistorial(request, response); 
             case "detalleVenta" -> getDetalle(request, response);
+            case "volverAdmin" -> volverAdmin(request, response);
             default -> response.sendError(404);
         }
     }
@@ -161,5 +162,17 @@ public class VentasController extends HttpServlet {
         } catch (NumberFormatException e) {
             response.sendError(404, "ID inválido para eliminación");
         }
+    }
+    
+    private void volverAdmin(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        List<Usuario> listaUsuario = usuariosRepo.getAll();
+        List<Venta> listaVenta = ventasRepo.getAll();
+        List<Articulo> listaArticulos = articulosRepo.getAll();
+
+        request.setAttribute("listarda", listaUsuario);
+        request.setAttribute("listaVentas", listaVenta);
+        request.setAttribute("listaArticulos", listaArticulos);
+
+        request.getRequestDispatcher("/views/home/adminIndex.jsp").forward(request, response);
     }
 }
