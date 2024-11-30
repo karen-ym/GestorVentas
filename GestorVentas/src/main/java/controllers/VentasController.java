@@ -3,7 +3,6 @@ package controllers;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -44,20 +43,6 @@ public class VentasController extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        /*if (ventasRepo.getAll().isEmpty()) {
-            List<Articulo> articulosVenta1 = Arrays.asList(
-                new Articulo(101, "Articulo A", "Descripción A", 50.0, 2)
-            );
-
-            List<Articulo> articulosVenta2 = Arrays.asList(
-                new Articulo(102, "Articulo B", "Descripción B", 75.0, 1)
-            );
-
-            ventasRepo.insert(new Venta(1, "cliente1", 100.0, articulosVenta1, LocalDate.now()));
-            ventasRepo.insert(new Venta(2, "cliente2", 75.0, articulosVenta2, LocalDate.now()));
-        }*/
-
         String accion = Optional.ofNullable(request.getParameter("accion")).orElse("historial"); 
 
         switch (accion) {
@@ -76,20 +61,18 @@ public class VentasController extends HttpServlet {
 
     private void getDetalle(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String sId = request.getParameter("id"); 
-        try {
-            int id = Integer.parseInt(sId);
-            Venta venta = ventasRepo.findById(id);
-            if (venta == null) {
-                response.sendError(HttpServletResponse.SC_NOT_FOUND, "Venta no encontrada con ID: " + id);
-                return;
-            }
-            request.setAttribute("venta", venta);
+        int idVenta = Integer.parseInt(request.getParameter("id"));
+        VentasRepoSingleton ventasRepo = VentasRepoSingleton.getInstance();
+        Venta venta = ventasRepo.findById(idVenta);
+        
+        if (venta != null) {
+        	request.setAttribute("venta", venta);
             request.getRequestDispatcher("/views/Ventas/DetalleVenta.jsp").forward(request, response);
-        } catch (NumberFormatException e) {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "ID de venta inválido");
+        } else {
+            response.sendError(HttpServletResponse.SC_NOT_FOUND, "Venta no encontrada");
         }
     }
+
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

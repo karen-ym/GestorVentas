@@ -17,13 +17,13 @@ public class VentasRepoSingleton implements VentasRepo {
     private VentasRepoSingleton() {
         ventas = new ArrayList<>();
 
-        /*ventas.add(new Venta(1, "cliente1", 150.0, Arrays.asList(
+        ventas.add(new Venta(1, "cliente1", 150.0, Arrays.asList(
             new Articulo(101, "Articulo A", "Descripción A", 50.0, 2)
         ), LocalDate.now()));
 
         ventas.add(new Venta(2, "cliente2", 300.0, Arrays.asList(
             new Articulo(102, "Articulo B", "Descripción B", 75.0, 4)
-        ), LocalDate.now()));*/
+        ), LocalDate.now()));
     }
 
     public static synchronized VentasRepoSingleton getInstance() {
