@@ -4,6 +4,7 @@
 <html>
 <head>
     <title>Detalles de Venta</title>
+    <link rel="stylesheet" href="css/estiloDetalleVenta.css"> 
 </head>
 <body>
     <div>

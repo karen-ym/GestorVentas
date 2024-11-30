@@ -4,6 +4,7 @@
 <html>
 <head>
     <title>Historial de Ventas</title>
+    <link rel="stylesheet" href="css/estiloHistorial.css"> 
 </head>
 <body>
     <div>
