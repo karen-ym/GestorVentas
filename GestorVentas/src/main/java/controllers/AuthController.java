@@ -80,6 +80,7 @@ public class AuthController extends HttpServlet {
                 request.getRequestDispatcher("/views/home/adminIndex.jsp").forward(request, response); 
             } else if (usuario.getTipo().equals("cliente")) {
             	List<Articulo> listaArticulos = articulosRepo.getAll();
+            	request.setAttribute("idUsuario", usuario.getId());
             	request.setAttribute("listaArticulos", listaArticulos);
                 request.getRequestDispatcher("/views/home/clienteIndex.jsp").forward(request, response);
             } else {

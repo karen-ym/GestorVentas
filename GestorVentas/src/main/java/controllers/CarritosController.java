@@ -11,6 +11,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import models.Articulo;
 import models.Carrito;
@@ -54,10 +55,9 @@ public class CarritosController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String accion = request.getParameter("accion");
-		accion = Optional.ofNullable(accion).orElse("index");
+		accion = Optional.ofNullable(accion).orElse("carrito");
 		
 		switch (accion) {
-		case "index" -> getIndex(request,response);
 		case "add" -> getAdd(request,response);
 		case "carrito" -> getCarrito(request,response);
 		case "show" -> getShow(request,response);
@@ -87,18 +87,6 @@ public class CarritosController extends HttpServlet {
 		request.getRequestDispatcher("/views/carritos/add.jsp").forward(request, response);
 	}
 
-	//Funcion que muestra una lista de articulos para comprar(de prueba)
-	private void getIndex(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String sId = request.getParameter("IdUsuario");
-		int idUsuario = Integer.parseInt(sId);
-		
-		List<Articulo> articulos = articulosRepo.getAll();
-		request.setAttribute("idUsuario", idUsuario);
-		request.setAttribute("articulos",articulos );
-		
-		request.getRequestDispatcher("/views/carritos/index.jsp").forward(request, response);
-	}
-
 	//Muestra los detalles de un articulo particular
 	private void getShow(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String sId = request.getParameter("idUsuario");
@@ -119,16 +107,22 @@ public class CarritosController extends HttpServlet {
 
 	// Muestra los articulos del Carrito
 	private void getCarrito(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String sId = request.getParameter("idUsuario");
-		int idUsuario = Integer.parseInt(sId);
+		/*String sId = request.getParameter("idUsuario");
+		int idUsuario = Integer.parseInt(sId);*/
+		HttpSession session = request.getSession(false);
+		Usuario usuario = (Usuario) session.getAttribute("usuario");
+		if (usuario == null) {
+			 response.sendError(HttpServletResponse.SC_NOT_FOUND, "Sesión no encontrada.");
+			 return;
+		}
 		
-		List<Articulo> articulos = carritosRepo.getAll(idUsuario);
+		List<Articulo> articulos = carritosRepo.getAll(usuario.getId());
 		articulos = articulos != null ? articulos : new ArrayList<>();
-		double precioTotal = carritosRepo.precioTotal(idUsuario);
+		double precioTotal = carritosRepo.precioTotal(usuario.getId());
 		
 		request.setAttribute("articulos", articulos);
 		request.setAttribute("precioTotal", precioTotal);
-		request.setAttribute("idUsuario", sId);
+		request.setAttribute("idUsuario", usuario.getId());
 		request.getRequestDispatcher("/views/carritos/carrito.jsp").forward(request, response);
 	}
 	
