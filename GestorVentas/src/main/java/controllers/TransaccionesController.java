@@ -45,7 +45,7 @@ public class TransaccionesController extends HttpServlet {
 	}
 
 	
-	private void getShow(HttpServletRequest request, HttpServletResponse response) {
+	private void getShow(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	int idTransaccion = Integer.parseInt(request.getParameter("idTransaccion"));
         
         Transaccion transaccion = transaccionesRepo.findById(idTransaccion);

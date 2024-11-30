@@ -32,7 +32,7 @@
 	    	<input type="number" name="cantidad" value="${1}">
 	    </p>
 	
-	    <input type="submit" value="Comprar">
+	    <input type="submit" value="Agregar al carrito">
 	</form>
 
 	

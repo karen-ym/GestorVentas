@@ -175,6 +175,13 @@ public class CarritosController extends HttpServlet {
 				Venta venta = new Venta(idUsuario, usuario.getNombreUsuario(), carrito.precioTotal(), carrito.getArticulos(),LocalDate.now());
 				ventasRepo.insert(venta);
 				carritosRepo.comprarCarrito(idUsuario);
+				if(usuario.getSaldoActual() > carrito.precioTotal()) {
+					usuario.setSaldoActual(usuario.getSaldoActual() - carrito.precioTotal());
+				}else {
+					response.sendError(404, "No tiene saldo suficiente");
+					return;
+				}
+				
 			}else {
 				response.sendRedirect("Carritos");
 				return;
