@@ -5,7 +5,6 @@
 <head>
     <meta charset="UTF-8">
     <title>Panel de Administración</title>
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
 <div class="container mt-5">
@@ -14,7 +13,7 @@
     <!-- Sección de Usuarios -->
     <h2 class="mb-3">Gestión de Usuarios</h2>
     <table class="table table-striped table-bordered">
-        <thead class="thead-dark">
+        <thead>
             <tr>
                 <th>ID</th>
                 <th>Nombre de Usuario</th>
@@ -33,7 +32,7 @@
                     <td><c:out value="${usuario.saldoActual}"/></td>
                     <td><c:out value="${usuario.tipo}"/></td>
                     <td>
-                        <a href="usuarios?accion=show&id=${usuario.id}" class="btn btn-info btn-sm">Ver</a>
+                        <a href="usuarios?accion=show&id=${usuario.id}">Ver</a>
                         <form action="usuarios" method="post" class="d-inline">
                             <input type="hidden" name="id" value="${usuario.id}">
                             <input type="hidden" name="accion" value="delete">
@@ -52,7 +51,7 @@
     </c:if>
     <c:if test="${not empty listaVentas}">
         <table class="table table-striped table-bordered">
-            <thead class="thead-dark">
+            <thead>
                 <tr>
                     <th>ID Venta</th>
                     <th>Usuario</th>
@@ -69,7 +68,7 @@
                         <td>${venta.total}</td>
                         <td>${venta.fechaVenta}</td>
                         <td>
-                            <a href="VentasController?accion=detalleVenta&id=${venta.idVenta}" class="btn btn-info btn-sm">Detalles</a>
+                            <a href="VentasController?accion=detalleVenta&id=${venta.idVenta}">Detalles</a>
                         </td>
                     </tr>
                 </c:forEach>
@@ -84,7 +83,7 @@
     </c:if>
     <c:if test="${not empty listaArticulos}">
         <table class="table table-striped table-bordered">
-            <thead class="thead-dark">
+            <thead>
                 <tr>
                     <th>Código</th>
                     <th>Nombre</th>
@@ -103,8 +102,8 @@
                         <td>$<c:out value="${articulo.precio}" /></td>
                         <td><c:out value="${articulo.stock}" /></td>
                         <td>
-                        	<a href="articulos?accion=show&codigo=${articulo.codigo}" class="btn btn-info btn-sm">Ver</a>
-                        	<a href="articulos?accion=edit&codigo=${articulo.codigo}" class="btn btn-warning btn-sm">Editar</a>
+                        	<a href="articulos?accion=show&codigo=${articulo.codigo}">Ver</a>
+                        	<a href="articulos?accion=edit&codigo=${articulo.codigo}">Editar</a>
                         	<form action="articulos" method="post" class="d-inline">
                                 <input type="hidden" name="codigo" value="${articulo.codigo}">
                                 <input type="hidden" name="accion" value="delete">
@@ -118,7 +117,5 @@
     </c:if>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

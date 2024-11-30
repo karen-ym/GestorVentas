@@ -46,7 +46,7 @@
         </c:if>
 
         <div>
-            <a href="VentasController?accion=historial"</a>
+            <a href="VentasController?accion=historial">Volver al Historial</a>
         </div>
     </div>
 </body>
