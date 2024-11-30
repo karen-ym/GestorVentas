@@ -10,9 +10,15 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import models.Articulo;
 import models.Usuario;
+import models.Venta;
+import repositories.ArticulosRepoSingleton;
 import repositories.UsuariosRepoSingleton;
+import repositories.VentasRepoSingleton;
+import repositories.interfaces.ArticulosRepo;
 import repositories.interfaces.UsuariosRepo;
+import repositories.interfaces.VentasRepo;
 import utils.Encryptor;
 
 @WebServlet("/usuarios")
@@ -20,9 +26,13 @@ public class UsuariosController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	private UsuariosRepo usuariosRepo;
+	private ArticulosRepo articulosRepo;
+	private VentasRepo ventasRepo;
        
     public UsuariosController() {
-    	this.usuariosRepo = UsuariosRepoSingleton.getInstance();
+    		this.usuariosRepo = UsuariosRepoSingleton.getInstance();
+        this.articulosRepo = ArticulosRepoSingleton.getInstance();
+        this.ventasRepo = VentasRepoSingleton.getInstance();
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) 
@@ -89,11 +99,21 @@ public class UsuariosController extends HttpServlet {
 	}
 	
 
-	private void postDelete(HttpServletRequest request, HttpServletResponse response) {
+	private void postDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String sId = request.getParameter("id");
 		int id = Integer.parseInt(sId);
 		
 		usuariosRepo.delete(id);
+		
+		List<Usuario> listaUsuario = usuariosRepo.getAll();
+        List<Venta> listaVenta = ventasRepo.getAll(); 
+        List<Articulo> listaArticulos = articulosRepo.getAll();
+        
+        request.setAttribute("listarda", listaUsuario);
+        request.setAttribute("listaVentas", listaVenta);
+        request.setAttribute("listaArticulos", listaArticulos);
+		
+		request.getRequestDispatcher("/views/home/adminIndex.jsp").forward(request, response);
 	}
 
 	private void postInsert(HttpServletRequest request, HttpServletResponse response) throws IOException {
