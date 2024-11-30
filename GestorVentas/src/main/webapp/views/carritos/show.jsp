@@ -6,7 +6,7 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Detalles del Artículo</title>
-<link rel="stylesheet" type="text/css" href="estiloCliente.css">
+<link rel="stylesheet" href="css/estiloCliente.css">
 </head>
 <body>
 	<div class="container">
