@@ -5,24 +5,37 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<title>Detalles del Artículo</title>
+<link rel="stylesheet" type="text/css" href="estiloCliente.css">
 </head>
 <body>
-	<form action="Carritos" method="post">
-		<input type="hidden" name="accion" value="insert">
-		<p>
-			Código: <c:out value="${articulo.codigo}" />
-		</p>
-		<p>
-			Nombre: <c:out value="${articulo.nombre}" />
-		</p>
-		<p>
-			Descripción: <c:out value="${articulo.descripcion}" />
-		</p>
-		<p>
-			Precio: <c:out value="${articulo.precio}" />
-		</p>
-		
-	</form>
+	<div class="container">
+        <h1>Detalles del Artículo</h1>
+        <form action="Carritos" method="post">
+            <input type="hidden" name="accion" value="insert">
+            
+            <div class="form-group">
+                <label>Código:</label>
+                <span><c:out value="${articulo.codigo}" /></span>
+            </div>
+
+            <div class="form-group">
+                <label>Nombre:</label>
+                <span><c:out value="${articulo.nombre}" /></span>
+            </div>
+
+            <div class="form-group">
+                <label>Descripción:</label>
+                <span><c:out value="${articulo.descripcion}" /></span>
+            </div>
+
+            <div class="form-group">
+                <label>Precio:</label>
+                <span><c:out value="${articulo.precio}" /></span>
+            </div>
+
+            <button type="submit" class="button">Agregar al Carrito</button>
+        </form>
+    </div>
 </body>
 </html>
