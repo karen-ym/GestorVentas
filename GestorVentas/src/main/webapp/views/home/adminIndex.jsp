@@ -10,7 +10,7 @@
 <body>
 <div class="container mt-5">
     <h1 class="text-center mb-4">BIENVENIDO ADMIN</h1>
-    <a href="${pageContext.request.contextPath}/auth?accion=logout">Cerrar Sesión</a>
+    <a href="${pageContext.request.contextPath}/auth?accion=logout" class="btn-link">Cerrar Sesión</a>
 
     <!-- Sección de Usuarios -->
     <h2 class="mb-3">Gestión de Usuarios</h2>
@@ -34,7 +34,7 @@
                     <td><c:out value="${usuario.saldoActual}"/></td>
                     <td><c:out value="${usuario.tipo}"/></td>
                     <td>
-                        <a href="usuarios?accion=show&id=${usuario.id}">Ver</a>
+                        <a href="usuarios?accion=show&id=${usuario.id}" class="btn-link">Ver</a>
                         <form action="usuarios" method="post" class="d-inline">
                             <input type="hidden" name="id" value="${usuario.id}">
                             <input type="hidden" name="accion" value="delete">
@@ -70,7 +70,7 @@
                         <td>${venta.total}</td>
                         <td>${venta.fechaVenta}</td>
                         <td>
-                            <a href="VentasController?accion=detalleVenta&id=${venta.idVenta}">Detalles</a>
+                            <a href="VentasController?accion=detalleVenta&id=${venta.idVenta}" class="btn-link">Detalles</a>
                         </td>
                     </tr>
                 </c:forEach>
@@ -79,7 +79,7 @@
     </c:if>
     <!-- Sección de Artículos -->
     <h2 class="mt-5 mb-3">Gestión de Artículos</h2>
-    <a href="articulos?accion=create" class="btn btn-success mb-3">Agregar Artículo</a>
+    <a href="articulos?accion=create" class="btn-link">Agregar Artículo</a>
     <c:if test="${empty listaArticulos}">
         <p class="text">No hay artículos registrados.</p>
     </c:if>
@@ -104,8 +104,8 @@
                         <td>$<c:out value="${articulo.precio}" /></td>
                         <td><c:out value="${articulo.stock}" /></td>
                         <td>
-                        	<a href="articulos?accion=show&codigo=${articulo.codigo}">Ver</a>
-                        	<a href="articulos?accion=edit&codigo=${articulo.codigo}">Editar</a>
+                        	<a href="articulos?accion=show&codigo=${articulo.codigo}" class="btn-link">Ver</a>
+                        	<a href="articulos?accion=edit&codigo=${articulo.codigo}" class="btn-link">Editar</a>
                         	<form action="articulos" method="post" class="d-inline">
                                 <input type="hidden" name="codigo" value="${articulo.codigo}">
                                 <input type="hidden" name="accion" value="delete">

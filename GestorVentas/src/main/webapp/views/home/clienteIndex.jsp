@@ -9,7 +9,7 @@
 </head>
 <body class="container mt-5">
     <h1 class="mb-4">Bienvenido, <c:out value="${usuario.nombreUsuario}" /></h1>
-    <a href="${pageContext.request.contextPath}/auth?accion=logout">Cerrar Sesión</a>
+    <a href="${pageContext.request.contextPath}/auth?accion=logout" class="ver-carrito">Cerrar Sesión</a>
     
     <div class="">
         <div class="">
