@@ -88,4 +88,21 @@ public class ArticulosRepoSingleton implements ArticulosRepo{
 	public void delete(int codigo) {
 	    listaArticulos.removeIf(a -> a.getCodigo() == codigo);
 	}
+
+	@Override
+	public void descontarStock(List<Articulo> carritoArticulos) {
+
+		 for (Articulo articuloCarrito : carritoArticulos) {
+	            for (Articulo articuloStock : this.listaArticulos) {
+	       
+	                if (articuloCarrito.getCodigo() == (articuloStock.getCodigo())) {
+	                   
+	                    articuloStock.setStock((articuloStock.getStock() - articuloCarrito.getStock()));
+	                    break; 
+	                }
+	            }
+	        }
+
+		
+	}
 }
