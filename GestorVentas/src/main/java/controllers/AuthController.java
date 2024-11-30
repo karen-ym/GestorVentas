@@ -1,6 +1,8 @@
 package controllers;
 
 import java.io.IOException;
+import java.util.List;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -8,17 +10,22 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import models.Articulo;
 import models.Usuario;
+import repositories.ArticulosRepoSingleton;
 import repositories.UsuariosRepoSingleton;
+import repositories.interfaces.ArticulosRepo;
 import repositories.interfaces.UsuariosRepo;
 
 @WebServlet("/auth")
 public class AuthController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private UsuariosRepo usuariosRepo;
+	private ArticulosRepo articulosRepo;
 
     public AuthController() {
-        this.usuariosRepo = UsuariosRepoSingleton.getInstance(); 
+        this.usuariosRepo = UsuariosRepoSingleton.getInstance();
+        this.articulosRepo = ArticulosRepoSingleton.getInstance();
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -52,6 +59,8 @@ public class AuthController extends HttpServlet {
             if (usuario.getTipo().equals("empleado")) {
                 request.getRequestDispatcher("/views/home/adminIndex.jsp").forward(request, response); 
             } else if (usuario.getTipo().equals("cliente")) {
+            	List<Articulo> listaArticulos = articulosRepo.getAll();
+            	request.setAttribute("listaArticulos", listaArticulos);
                 request.getRequestDispatcher("/views/home/clienteIndex.jsp").forward(request, response);
             } else {
                 request.getRequestDispatcher("/views/home/clienteIndex.jsp").forward(request, response);
