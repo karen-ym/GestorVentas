@@ -32,9 +32,9 @@
             </div>
 
             <button type="submit" class="btn btn-primary">Iniciar Sesión</button>
+            
         </form>
-
-        <a href="${pageContext.request.contextPath}/usuarios?accion=create" class="btn-link">Registrarse</a>
+            <a href="${pageContext.request.contextPath}/usuarios?accion=create" class="btn-link">Registrarse</a>
 
         <div class="test-users">
             <p><strong>Usuarios de prueba disponibles:</strong></p>
