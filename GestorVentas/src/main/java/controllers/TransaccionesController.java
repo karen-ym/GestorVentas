@@ -18,26 +18,17 @@ import repositories.UsuariosRepoSingleton;
 import repositories.interfaces.TransaccionesRepo;
 import repositories.interfaces.UsuariosRepo;
 
-/**
- * Servlet implementation class TransaccionesController
- */
 @WebServlet("/TransaccionesController")
 public class TransaccionesController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private TransaccionesRepo transaccionesRepo;
 	private UsuariosRepo usuariosRepo;
        
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
     public TransaccionesController() {
 	      this.transaccionesRepo = TransaccionesRepoSingleton.getInstance();
 	      this.usuariosRepo = UsuariosRepoSingleton.getInstance();
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {	
 		String accion = request.getParameter("accion");
 		accion = Optional.ofNullable(accion).orElse("index");
@@ -79,7 +70,7 @@ public class TransaccionesController extends HttpServlet {
 		request.setAttribute("beneficiario", beneficiario);
 		request.setAttribute("deudor", deudor);
 		
-		request.getRequestDispatcher("").forward(request, response);//falta implementar la vista
+		request.getRequestDispatcher("/views/transacciones/registros.jsp").forward(request, response);
 	}
 
 	//Manda los datos del usuario a la vista donde se transfiere.
@@ -93,7 +84,7 @@ public class TransaccionesController extends HttpServlet {
 			return;
 		}
 		request.setAttribute("usuario", usuario);
-		request.getRequestDispatcher("").forward(request, response);//falta implementar la vista
+		request.getRequestDispatcher("/views/transacciones/transferir.jsp").forward(request, response);
 	}
 
 	//Manda los datos del usuario a la vista.
@@ -107,7 +98,7 @@ public class TransaccionesController extends HttpServlet {
 		}
 		request.setAttribute("usuario", usuario);
 		
-		request.getRequestDispatcher("").forward(request, response);//falta implementar la vista
+		request.getRequestDispatcher("/views/transacciones/index.jsp").forward(request, response);
 	}
 
 	@Override
